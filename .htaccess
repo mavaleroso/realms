@@ -1,0 +1,4 @@
+RewriteEngine On
+RewriteCond %{REQUEST_URI} !^layouts/pages
+#RewriteRule ^pages/(.*)$ layouts/pages/$1 [L]
+RewriteRule ^(.*)$ layouts/pages/$1 [L]
