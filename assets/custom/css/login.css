@@ -1,0 +1,16 @@
+.btn-isso {
+  color: #3699ff;
+  background-color: #e1f0ff;
+  border-color: transparent;
+  font-weight: 15px;
+}
+
+.btn-isso:hover {
+  color: #fff;
+  background-color: #3699ff;
+}
+
+.btn-isso .isso-logo {
+  width: 25px;
+  margin-right: 10px;
+}

@@ -1,3 +1,4 @@
 <?php
-header("Location: http://realms.test/pages/home");
+include_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
+header('Location: ' . BASE_URL . '/login');
 exit();
