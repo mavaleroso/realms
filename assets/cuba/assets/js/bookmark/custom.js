@@ -1,21 +1,33 @@
-
 function submitBookMark() {
-    if ($(".form-bookmark").valid()) {
-	var index_var = $('#index_var').val();
-	var weburl = $('#bm-weburl').val();
-	var title = $('#bm-title').val();
-	var desc = $('#bm-desc').val();
-	var group = $('#bm-group').val();
-	var collection = $('#bm-collection').val();
-	$('#index_var').val(parseInt(index_var)+6);
+  if ($(".form-bookmark").valid()) {
+    var index_var = $("#index_var").val();
+    var weburl = $("#bm-weburl").val();
+    var title = $("#bm-title").val();
+    var desc = $("#bm-desc").val();
+    var group = $("#bm-group").val();
+    var collection = $("#bm-collection").val();
+    $("#index_var").val(parseInt(index_var) + 6);
 
-		var bmColData = '<div class="col-xl-3 col-md-4 xl-50">\
+    var bmColData =
+      '<div class="col-xl-3 col-md-4 xl-50">\
 	      <div class="card card-with-border bookmark-card o-hidden"><div class="details-website"><img class="img-fluid" src="../assets/images/lightgallry/07.jpg" alt="" data-original-title="" title="">\
-	        <div class="favourite-icon favourite_'+index_var+'"><a href="#" onclick="setFavourite('+index_var+')" data-original-title="" title=""><i class="fa fa-star"></i></a></div>\
+	        <div class="favourite-icon favourite_' +
+      index_var +
+      '"><a href="#" onclick="setFavourite(' +
+      index_var +
+      ')" data-original-title="" title=""><i class="fa fa-star"></i></a></div>\
 	        <div class="desciption-data">\
 		        <div class="title-bookmark">\
-		          <h6 class="title_'+index_var+'">'+title+'</h6>\
-		          <p class="weburl_'+index_var+'">'+weburl+'</p>\
+		          <h6 class="title_' +
+      index_var +
+      '">' +
+      title +
+      '</h6>\
+		          <p class="weburl_' +
+      index_var +
+      '">' +
+      weburl +
+      '</p>\
 		          <div class="hover-block">\
 		            <ul>\
 		              <li><a href="" data-toggle="modal" data-target="#edit-bookmark">\
@@ -44,65 +56,85 @@ function submitBookMark() {
 		            </ul>\
 		          </div>\
 		          <div class="content-general">\
-		          	<p class="desc_'+index_var+'">'+desc+'</p>\
-		          	<span class="collection_'+index_var+'">'+collection+'</span>\
+		          	<p class="desc_' +
+      index_var +
+      '">' +
+      desc +
+      '</p>\
+		          	<span class="collection_' +
+      index_var +
+      '">' +
+      collection +
+      "</span>\
 		          </div>\
 		        </div>\
 		    </div>\
 	      </div>\
-	    </div>';
+	    </div>";
 
-    $('#bookmarkData').append(bmColData);
-    $('#bookmarkData1').append(bmColData);
-    $('#exampleModal').modal('toggle');
-    $('#bookmark-form').find('input[type="text"],textarea').val('');
-	}
-} 
+    $("#bookmarkData").append(bmColData);
+    $("#bookmarkData1").append(bmColData);
+    $("#exampleModal").modal("toggle");
+    $("#bookmark-form").find('input[type="text"],textarea').val("");
+  }
+}
 
 // edit contact
 
-function editBookmark(index_var){
-
-	var title = $(".title_"+index_var).html();
-	var weburl = $(".weburl_"+index_var).html();
-	var desc = $(".desc_"+index_var).html();
-	$("#edittitle").val(title);
-	$("#editurl").val(weburl);
-	$("#editdesc").val(desc);
+function editBookmark(index_var) {
+  var title = $(".title_" + index_var).html();
+  var weburl = $(".weburl_" + index_var).html();
+  var desc = $(".desc_" + index_var).html();
+  $("#edittitle").val(title);
+  $("#editurl").val(weburl);
+  $("#editdesc").val(desc);
 }
-
 
 // favourites bookmark
 
 var fav_arr = [];
-function setFavourite(index_var){
-	$(".favourite_"+index_var).toggleClass("favourite");
-	var title = $(".title_"+index_var).html();
-	var weburl=$(".weburl_"+index_var).html();
-	var desc = $(".desc_"+index_var).html();
-	var collection = $(".collection_"+index_var).html();
-	var n = fav_arr.includes(index_var);
-	
-	console.log(fav_arr);
-	console.log(n);
-	if(n){
-		for( var i = 0; i < fav_arr.length; i++){ 
-		   if ( fav_arr[i] === index_var) {
-		     fav_arr.splice(i, 1); 
-		   }
-		}
-		$(".favourite_card_"+index_var).hide();
-	}
-	else {
-		fav_arr.push(index_var);
-	
-		var bmColData = '<div class="col-xl-3 col-md-4 xl-50 favourite_card_'+index_var+'">\
+function setFavourite(index_var) {
+  $(".favourite_" + index_var).toggleClass("favourite");
+  var title = $(".title_" + index_var).html();
+  var weburl = $(".weburl_" + index_var).html();
+  var desc = $(".desc_" + index_var).html();
+  var collection = $(".collection_" + index_var).html();
+  var n = fav_arr.includes(index_var);
+
+  console.log(fav_arr);
+  console.log(n);
+  if (n) {
+    for (var i = 0; i < fav_arr.length; i++) {
+      if (fav_arr[i] === index_var) {
+        fav_arr.splice(i, 1);
+      }
+    }
+    $(".favourite_card_" + index_var).hide();
+  } else {
+    fav_arr.push(index_var);
+
+    var bmColData =
+      '<div class="col-xl-3 col-md-4 xl-50 favourite_card_' +
+      index_var +
+      '">\
 	      <div class="card card-with-border bookmark-card o-hidden"><div class="details-website"><img class="img-fluid" src="../assets/images/lightgallry/07.jpg" alt="" data-original-title="" title="">\
-	        <div class="favourite-icon favourite" ><a href="#" class="favourite_'+index_var+'" onclick="setFavourite('+index_var+')" data-original-title="" title=""><i class="fa fa-star"></i></a></div>\
+	        <div class="favourite-icon favourite" ><a href="#" class="favourite_' +
+      index_var +
+      '" onclick="setFavourite(' +
+      index_var +
+      ')" data-original-title="" title=""><i class="fa fa-star"></i></a></div>\
 	        <div class="desciption-data">\
 		        <div class="title-bookmark">\
-		          <h6 class="title_'+index_var+'">'+title+'</h6>\
-		          <p class="weburl_'+index_var+'">'+weburl+'</p>\
+		          <h6 class="title_' +
+      index_var +
+      '">' +
+      title +
+      '</h6>\
+		          <p class="weburl_' +
+      index_var +
+      '">' +
+      weburl +
+      '</p>\
 		          <div class="hover-block">\
 		            <ul>\
 		              <li><a href="" data-toggle="modal" data-target="#edit-bookmark">\
@@ -131,33 +163,49 @@ function setFavourite(index_var){
 		            </ul>\
 		          </div>\
 		          <div class="content-general">\
-			        <p class="desc_'+index_var+'">'+desc+'</p>\
-			        <span class="collection_'+index_var+'">'+collection+'</span>\
+			        <p class="desc_' +
+      index_var +
+      '">' +
+      desc +
+      '</p>\
+			        <span class="collection_' +
+      index_var +
+      '">' +
+      collection +
+      "</span>\
 			      </div>\
 		        </div>\
 	      	</div>\
 	      </div>\
-	    </div>';
-	    $('#favouriteData').append(bmColData);
-	}
-	if (fav_arr.length == 0) {
-		$(".no-favourite").show();
-	} else {
-	    $(".no-favourite").hide();
-	}
+	    </div>";
+    $("#favouriteData").append(bmColData);
+  }
+  if (fav_arr.length == 0) {
+    $(".no-favourite").show();
+  } else {
+    $(".no-favourite").hide();
+  }
 }
 
-
 // list-view
-$('.grid-bookmark-view').on('click', function(e) {
-    $('.details-bookmark').removeClass("list-bookmark");
-
+$(".grid-published-view").on("click", function (e) {
+  $(".details-bookmark.published").removeClass("list-bookmark");
 });
-$('.list-layout-view').on('click', function(e) {
-    $(".details-bookmark").css("opacity","0.2");
-    $('.details-bookmark').addClass("list-bookmark");
-    setTimeout(function(){
-        $(".details-bookmark").css("opacity","1");
-    }, 500);
+$(".list-published-view").on("click", function (e) {
+  $(".details-bookmark.published").css("opacity", "0.2");
+  $(".details-bookmark.published").addClass("list-bookmark");
+  setTimeout(function () {
+    $(".details-bookmark.published").css("opacity", "1");
+  }, 500);
 });
 
+$(".grid-unpublished-view").on("click", function (e) {
+  $(".details-bookmark.unpublished").removeClass("list-bookmark");
+});
+$(".list-unpublished-view").on("click", function (e) {
+  $(".details-bookmark.unpublished").css("opacity", "0.2");
+  $(".details-bookmark.unpublished").addClass("list-bookmark");
+  setTimeout(function () {
+    $(".details-bookmark.unpublished").css("opacity", "1");
+  }, 500);
+});

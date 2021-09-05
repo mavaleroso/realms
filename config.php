@@ -1,6 +1,6 @@
 <?php
 
-define('BASE_URL', 'http://realms.test');
+define('BASE_URL', isset($_SERVER['HTTPS']) ? 'https://' . $_SERVER['SERVER_NAME'] : 'http://' . $_SERVER['SERVER_NAME']);
 define('APP_NAME', 'ReALMS');
 
 // database

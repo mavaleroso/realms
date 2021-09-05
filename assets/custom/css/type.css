@@ -1,0 +1,32 @@
+.page-wrapper .page-body-wrapper .page-body {
+  min-height: calc(100vh - 188px) !important;
+}
+
+.student-card .card-header {
+  background-color: #c7cbe4;
+}
+
+.teacher-card .card-header {
+  background-color: #d1f3cd;
+}
+
+.student-logo,
+.teacher-logo {
+  width: 190px;
+  margin-right: 30px;
+}
+
+.education-logo {
+  width: 40px;
+  margin-right: 20px;
+}
+
+.btn-student {
+  background-color: #99a3d8;
+  color: #fff;
+}
+
+.btn-teacher {
+  background-color: #adefa6;
+  color: #fff;
+}
