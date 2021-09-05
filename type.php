@@ -15,29 +15,10 @@ $sess->check();
     <meta name="author" content="pixelstrap">
     <link rel="icon" href="/assets/cuba/assets/images/favicon.png" type="image/x-icon">
     <link rel="shortcut icon" href="/assets/cuba/assets/images/favicon.png" type="image/x-icon">
-    <title>Cuba - Premium Admin Template</title>
-    <!-- Google font-->
-    <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,500i,700,700i&amp;display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900&amp;display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="/assets/cuba/assets/css/font-awesome.css">
-    <!-- ico-font-->
-    <link rel="stylesheet" type="text/css" href="/assets/cuba/assets/css/vendors/icofont.css">
-    <!-- Themify icon-->
-    <link rel="stylesheet" type="text/css" href="/assets/cuba/assets/css/vendors/themify.css">
-    <!-- Flag icon-->
-    <link rel="stylesheet" type="text/css" href="/assets/cuba/assets/css/vendors/flag-icon.css">
-    <!-- Feather icon-->
-    <link rel="stylesheet" type="text/css" href="/assets/cuba/assets/css/vendors/feather-icon.css">
-    <!-- Plugins css start-->
-    <link rel="stylesheet" type="text/css" href="/assets/cuba/assets/css/vendors/scrollbar.css">
-    <!-- Plugins css Ends-->
-    <!-- Bootstrap css-->
-    <link rel="stylesheet" type="text/css" href="/assets/cuba/assets/css/vendors/bootstrap.css">
-    <!-- App css-->
-    <link rel="stylesheet" type="text/css" href="/assets/cuba/assets/css/style.css">
-    <link id="color" rel="stylesheet" href="/assets/cuba/assets/css/color-1.css" media="screen">
-    <!-- Responsive css-->
-    <link rel="stylesheet" type="text/css" href="/assets/cuba/assets/css/responsive.css">
+    <title>ReALMS - Type</title>
+    <?php require_once('./assets/CSS.php') ?>
+    <link rel="stylesheet" type="text/css" href="/assets/custom/css/type.css">
+    <input type="hidden" id="base_url" value="<?php echo BASE_URL ?>">
 </head>
 
 <body>
@@ -98,8 +79,8 @@ $sess->check();
                         <li class="maximize"><a class="text-dark" href="#!" onclick="javascript:toggleFullScreen()"><i data-feather="maximize"></i></a></li>
                         <li class="profile-nav onhover-dropdown p-0 me-0">
                             <div class="media profile-media"><img class="b-r-10" src="/assets/cuba/assets/images/dashboard/profile.jpg" alt="">
-                                <div class="media-body"><span><?php echo $_SESSION['id'] ?></span>
-                                    <p class="mb-0 font-roboto">Admin <i class="middle fa fa-angle-down"></i></p>
+                                <div class="media-body"><span><?php echo $_SESSION['fname'] . ' ' . $_SESSION['lname'] ?></span>
+                                    <p class="mb-0 font-roboto"><?php echo $_SESSION['role'] ?> <i class="middle fa fa-angle-down"></i></p>
                                 </div>
                             </div>
                             <ul class="profile-dropdown onhover-show-div">
@@ -127,22 +108,45 @@ $sess->check();
                 <div class="container-fluid">
                     <div class="page-title">
                         <div class="row">
-                            <div class="col-6">
-                                <h3>Sample Page</h3>
-                            </div>
                         </div>
                     </div>
                 </div>
                 <!-- Container-fluid starts-->
-                <div class="container-fluid">
+                <div class="container">
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="card">
-                                <div class="card-header">
-                                    <h5>Sample Card</h5><span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span>
+                                <div class="card-body p-4 d-flex">
+                                    <img class="education-logo" src="/assets/custom/images/education.svg" alt="education illustration">
+                                    <h4 class="p-0 m-0">Choose what type you want to become:</h4>
                                 </div>
-                                <div class="card-body">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="card student-card">
+                                <div class="card-header">
+                                    <h5>Student</h5><span>Be a student to learn more knowledge in the social work field.</span>
+                                </div>
+                                <div class="card-body d-flex">
+                                    <img class="student-logo" src="/assets/custom/images/student.svg" alt="student illustration">
                                     <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
+                                </div>
+                                <div class="card-footer">
+                                    <button class="btn btn-pill btn-air-light btn-student d-block m-auto btn-lg" onclick="update_role('student')">Become a student</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="card teacher-card">
+                                <div class="card-header">
+                                    <h5>Teacher</h5><span>Be a teacher to instruct student about the knowledge they enrolled.</span>
+                                </div>
+                                <div class="card-body d-flex">
+                                    <img class="teacher-logo" src="/assets/custom/images/teacher.svg" alt="teacher illustration">
+                                    <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
+                                </div>
+                                <div class="card-footer">
+                                    <button class="btn btn-pill btn-air-light btn-teacher d-block m-auto btn-lg" onclick="update_role('teacher')">Become a teacher</button>
                                 </div>
                             </div>
                         </div>
@@ -155,34 +159,15 @@ $sess->check();
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-12 footer-copyright text-center">
-                            <p class="mb-0">Copyright 2021 © Cuba theme by pixelstrap </p>
+                            <p class="mb-0">Copyright 2021 © DSWD Regional Application Learning Management System </p>
                         </div>
                     </div>
                 </div>
             </footer>
         </div>
     </div>
-    <!-- latest jquery-->
-    <script src="/assets/cuba/assets/js/jquery-3.5.1.min.js"></script>
-    <!-- Bootstrap js-->
-    <script src="/assets/cuba/assets/js/bootstrap/bootstrap.bundle.min.js"></script>
-    <!-- feather icon js-->
-    <script src="/assets/cuba/assets/js/icons/feather-icon/feather.min.js"></script>
-    <script src="/assets/cuba/assets/js/icons/feather-icon/feather-icon.js"></script>
-    <!-- scrollbar js-->
-    <script src="/assets/cuba/assets/js/scrollbar/simplebar.js"></script>
-    <script src="/assets/cuba/assets/js/scrollbar/custom.js"></script>
-    <!-- Sidebar jquery-->
-    <script src="/assets/cuba/assets/js/config.js"></script>
-    <!-- Plugins JS start-->
-    <!-- <script src="/assets/cuba/assets/js/sidebar-menu.js"></script> -->
-    <script src="/assets/cuba/assets/js/tooltip-init.js"></script>
-    <!-- Plugins JS Ends-->
-    <!-- Theme js-->
-    <script src="/assets/cuba/assets/js/script.js"></script>
-    <script src="/assets/cuba/assets/js/theme-customizer/customizer.js"></script>
-    <!-- login js-->
-    <!-- Plugin used-->
+    <?php require_once('./assets/JS.php') ?>
+    <script src="/assets/custom/js/type.js"></script>
 </body>
 
 </html>

@@ -277,26 +277,26 @@ $("#left-arrow").click(function () {
 });
 
 // page active
-if ($('#pageWrapper').hasClass('compact-wrapper')) {
-    $(".sidebar-wrapper nav").find("a").removeClass("active");
-    $(".sidebar-wrapper nav").find("li").removeClass("active");
+// if ($('#pageWrapper').hasClass('compact-wrapper')) {
+//     $(".sidebar-wrapper nav").find("a").removeClass("active");
+//     $(".sidebar-wrapper nav").find("li").removeClass("active");
 
-    var current = window.location.pathname
-    $(".sidebar-wrapper nav ul>li a").filter(function () {
+//     var current = window.location.pathname
+//     $(".sidebar-wrapper nav ul>li a").filter(function () {
 
-        var link = $(this).attr("href");
-        if (link) {
-            if (current.indexOf(link) != -1) {
-                $(this).parents().children('a').addClass('active');
-                $(this).parents().parents().children('ul').css('display', 'block');
-                $(this).addClass('active');
-                $(this).parent().parent().parent().children('a').find('div').replaceWith('<div class="according-menu"><i class="fa fa-angle-down"></i></div>');
-                $(this).parent().parent().parent().parent().parent().children('a').find('div').replaceWith('<div class="according-menu"><i class="fa fa-angle-down"></i></div>');
-                return false;
-            }
-        }
-    });
-}
+//         var link = $(this).attr("href");
+//         if (link) {
+//             if (current.indexOf(link) != -1) {
+//                 $(this).parents().children('a').addClass('active');
+//                 $(this).parents().parents().children('ul').css('display', 'block');
+//                 $(this).addClass('active');
+//                 $(this).parent().parent().parent().children('a').find('div').replaceWith('<div class="according-menu"><i class="fa fa-angle-down"></i></div>');
+//                 $(this).parent().parent().parent().parent().parent().children('a').find('div').replaceWith('<div class="according-menu"><i class="fa fa-angle-down"></i></div>');
+//                 return false;
+//             }
+//         }
+//     });
+// }
 
 
 $('.left-header .mega-menu .nav-link').on('click', function (event) {

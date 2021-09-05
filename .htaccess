@@ -4,3 +4,23 @@ RewriteRule ^ %1 [R=301,L]
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}.php -f
 RewriteRule ^(.*?)/?$ $1.php [NC,L]
+
+#Module path
+
+#Teacher
+RewriteCond %{REQUEST_URI} !^layouts/modules/teacher/pages
+RewriteRule ^modules/teacher/(.*)$ layouts/modules/teacher/pages/$1 [L]
+
+#Student
+RewriteCond %{REQUEST_URI} !^layouts/modules/pages/student
+RewriteRule ^modules/student/(.*)$ layouts/modules/pages/student/$1 [L]
+
+#Academy path
+
+#Teacher path
+RewriteCond %{REQUEST_URI} !^layouts/academy/pages/teacher
+RewriteRule ^academy/teacher/(.*)$ layouts/academy/pages/teacher/$1 [L]
+
+#Student path
+RewriteCond %{REQUEST_URI} !^layouts/academy/pages/student
+RewriteRule ^academy/student/(.*)$ layouts/academy/pages/student/$1 [L]
