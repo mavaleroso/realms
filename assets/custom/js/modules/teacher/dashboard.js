@@ -1,5 +1,3 @@
-const BASE_URL = $("#base_url").val();
-
 $(document).ready(function (e) {
   $("#course-form").on("submit", function (e) {
     e.preventDefault();
@@ -41,6 +39,8 @@ $(document).ready(function (e) {
                 icon: "success",
                 title: "Course created successfully!",
               });
+
+              location.reload();
             },
             error: function (e) {},
           });
