@@ -168,6 +168,11 @@ $sess->check();
     </div>
     <?php require_once('./assets/JS.php') ?>
     <script src="/assets/custom/js/type.js"></script>
+    <!-- <script>
+        function update_role(type) {
+            alert(type);
+        }
+    </script> -->
 </body>
 
 </html>

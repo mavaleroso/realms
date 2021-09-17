@@ -1,5 +1,3 @@
-const BASE_URL = $("#base_url").val();
-
 function update_role(type) {
   Swal.fire({
     title: "Are you sure you?",

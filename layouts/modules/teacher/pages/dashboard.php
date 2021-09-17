@@ -357,7 +357,7 @@ $sess->check();
                                                                             '<div class="favourite-icon favourite_0" onclick="setFavourite(0)"><a href="#"><i class="fa fa-star"></i></a></div> ' .
                                                                             '<div class="desciption-data">' .
                                                                             '<div class="title-bookmark"> ' .
-                                                                            '<h6 class="title_0">' . $row['name'] . '</h6>' .
+                                                                            '<h6 class="title_0">' . $row['name'] . ' <span class="label label-primary p-2"> ' . $row['code'] . ' </span></h6>' .
                                                                             '<p class="weburl_0">' . $row['description'] . '</p>' .
                                                                             '<div class="hover-block">' .
                                                                             '<ul> ' .
