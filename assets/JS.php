@@ -28,6 +28,5 @@
 <!-- login js-->
 <!-- Plugin used-->
 <script src="<?php echo BASE_URL ?>/assets/custom/js/main.js"></script>
-s
 
 </html>

@@ -50,7 +50,7 @@ $sess->check();
                 <div class="container-fluid">
                     <div class="email-wrap bookmark-wrap">
                         <div class="row">
-                        <div class="col-sm-2">
+                            <div class="col-sm-2">
                                 <div class="email-left-aside">
                                     <div class="card">
                                         <div class="card-body">
@@ -84,7 +84,7 @@ $sess->check();
                                                 </div>
                                                 <ul class="nav main-menu" role="tablist">
                                                     <li class="nav-item">
-                                                        
+
                                                     </li>
                                                 </ul>
                                             </div>
