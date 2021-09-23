@@ -29,7 +29,7 @@
                             $query = "SELECT * FROM tbl_courses";
                             $result = mysqli_query($conn, $query) or die(mysqli_error($conn));
                             while ($row = mysqli_fetch_array($result)) {
-                                echo '<li><a href="product.html">' . $row['name'] . '</a></li>';
+                                echo '<li><a href="' . BASE_URL . '/modules/teacher/courses?page=' . $row['code'] . '">' . $row['name'] . '</a></li>';
                             }
                             ?>
 

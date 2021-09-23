@@ -47,7 +47,7 @@ $sess->check();
                     </div>
                 </div>
                 <!-- Container-fluid starts-->
-                <div class="container-fluid">
+                <div id="dashboard" class="container-fluid">
                     <div class="email-wrap bookmark-wrap">
                         <div class="row">
                             <div class="col-xl-9 col-md-12 box-col-12">
@@ -56,7 +56,7 @@ $sess->check();
                                         <div class="ps-0">
                                             <div class="tab-content">
                                                 <div class="tab-pane fade active show" id="pills-created" role="tabpanel" aria-labelledby="pills-created-tab">
-                                                    <div class="card mb-0">
+                                                    <div class="card mb-0 published">
                                                         <div class="card-header d-flex">
                                                             <h6 class="mb-0">Published Courses</h6>
                                                             <ul>
@@ -70,33 +70,42 @@ $sess->check();
                                                                     <?php
                                                                     $query = "SELECT * FROM tbl_courses WHERE status=1";
                                                                     $result = mysqli_query($conn, $query) or die(mysqli_error($conn));
-                                                                    while ($row = mysqli_fetch_array($result)) {
-                                                                        echo '<div class="col-xl-3 col-md-4 xl-50">' .
-                                                                            '<div class="card card-with-border bookmark-card o-hidden">' .
-                                                                            '<div class="details-website"><img class="img-fluid" src="' . BASE_URL . '/storage/modules/' . $row['image'] . '" alt="">' .
-                                                                            '<div class="favourite-icon favourite_0" onclick="setFavourite(0)"><a href="#"><i class="fa fa-star"></i></a></div> ' .
-                                                                            '<div class="desciption-data">' .
-                                                                            '<div class="title-bookmark"> ' .
-                                                                            '<h6 class="title_0">' . $row['name'] . '</h6>' .
-                                                                            '<p class="weburl_0">' . $row['description'] . '</p>' .
-                                                                            '<div class="hover-block">' .
-                                                                            '<ul> ' .
-                                                                            '<li><a href="" onclick="editBookmark(0)" data-bs-toggle="modal" data-bs-target="#edit-bookmark"><i data-feather="edit-2"></i></a></li>' .
-                                                                            '<li><a href="#"><i data-feather="link"></i></a></li> ' .
-                                                                            '<li><a href="#"><i data-feather="share-2"></i></a></li>' .
-                                                                            '<li><a href="#"><i data-feather="trash-2"></i></a></li> ' .
-                                                                            '<li class="pull-right text-end"><a href="#"><i data-feather="tag"></i></a></li>' .
-                                                                            '</ul> ' .
-                                                                            '</div>' .
-                                                                            '<div class="content-general"> ' .
-                                                                            '<p class="desc_0"> is beautifully crafted, clean and modern designed admin theme with 6 different demos and light - dark versions.</p><span class="collection_0">General</span>' .
-                                                                            '</div> ' .
-                                                                            '</div>' .
-                                                                            '</div> ' .
-                                                                            '</div>' .
-                                                                            '</div>' .
+                                                                    if ($result->num_rows) {
+                                                                        while ($row = mysqli_fetch_array($result)) {
+                                                                            echo '<div class="col-xl-3 col-md-3">' .
+                                                                                '<div class="card card-with-border bookmark-card o-hidden">' .
+                                                                                '<div class="details-website"><img class="img-fluid" src="' . BASE_URL . '/storage/modules/' . $row['image'] . '" alt="">' .
+                                                                                '<div class="favourite-icon favourite_0 w-0 "><button class="btn-transparent text-white" onclick="change_status(' . $row['id'] . ', 0)">unpublish</button></div> ' .
+                                                                                '<div class="desciption-data">' .
+                                                                                '<div class="title-bookmark"> ' .
+                                                                                '<h6 class="title_0">' . $row['name'] . '</h6>' .
+                                                                                '<p class="weburl_0">' . $row['description'] . '</p>' .
+                                                                                '<div class="hover-block">' .
+                                                                                '<ul> ' .
+                                                                                '<li><a href="" onclick="editBookmark(0)" data-bs-toggle="modal" data-bs-target="#edit-bookmark"><i data-feather="edit-2"></i></a></li>' .
+                                                                                '<li><a href="#"><i data-feather="link"></i></a></li> ' .
+                                                                                '<li><a href="#"><i data-feather="share-2"></i></a></li>' .
+                                                                                '<li><a href="#"><i data-feather="trash-2"></i></a></li> ' .
+                                                                                '<li class="pull-right text-end"><a href="#"><i data-feather="tag"></i></a></li>' .
+                                                                                '</ul> ' .
+                                                                                '</div>' .
+                                                                                '<div class="content-general"> ' .
+                                                                                '<p class="desc_0"> is beautifully crafted, clean and modern designed admin theme with 6 different demos and light - dark versions.</p><span class="collection_0">General</span>' .
+                                                                                '</div> ' .
+                                                                                '</div>' .
+                                                                                '</div> ' .
+                                                                                '</div>' .
+                                                                                '</div>' .
+                                                                                '</div>';
+                                                                        }
+                                                                    } else {
+                                                                        echo '<div class="col-sm-12 alert alert-light dark alert-dismissible fade show" role="alert">' .
+                                                                            '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-triangle"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12" y2="17"></line></svg>' .
+                                                                            '<p>No published course.</p>' .
+                                                                            '<button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close" data-bs-original-title="" title=""></button>' .
                                                                             '</div>';
                                                                     }
+
                                                                     ?>
                                                                 </div>
                                                             </div>
@@ -336,7 +345,7 @@ $sess->check();
                                         <div class="ps-0">
                                             <div class="tab-content">
                                                 <div class="tab-pane fade active show" id="pills-created" role="tabpanel" aria-labelledby="pills-created-tab">
-                                                    <div class="card mb-0">
+                                                    <div class="card mb-0 unpublished">
                                                         <div class="card-header d-flex">
                                                             <h6 class="mb-0">Unpublished Courses</h6>
                                                             <ul>
@@ -350,33 +359,42 @@ $sess->check();
                                                                     <?php
                                                                     $query = "SELECT * FROM tbl_courses WHERE status=0";
                                                                     $result = mysqli_query($conn, $query) or die(mysqli_error($conn));
-                                                                    while ($row = mysqli_fetch_array($result)) {
-                                                                        echo '<div class="col-xl-3 col-md-4 xl-50">' .
-                                                                            '<div class="card card-with-border bookmark-card o-hidden">' .
-                                                                            '<div class="details-website"><img class="img-fluid" src="' . BASE_URL . '/storage/modules/' . $row['image'] . '" alt="">' .
-                                                                            '<div class="favourite-icon favourite_0" onclick="setFavourite(0)"><a href="#"><i class="fa fa-star"></i></a></div> ' .
-                                                                            '<div class="desciption-data">' .
-                                                                            '<div class="title-bookmark"> ' .
-                                                                            '<h6 class="title_0">' . $row['name'] . ' <span class="label label-primary p-2"> ' . $row['code'] . ' </span></h6>' .
-                                                                            '<p class="weburl_0">' . $row['description'] . '</p>' .
-                                                                            '<div class="hover-block">' .
-                                                                            '<ul> ' .
-                                                                            '<li><a href="" onclick="editBookmark(0)" data-bs-toggle="modal" data-bs-target="#edit-bookmark"><i data-feather="edit-2"></i></a></li>' .
-                                                                            '<li><a href="#"><i data-feather="link"></i></a></li> ' .
-                                                                            '<li><a href="#"><i data-feather="share-2"></i></a></li>' .
-                                                                            '<li><a href="#"><i data-feather="trash-2"></i></a></li> ' .
-                                                                            '<li class="pull-right text-end"><a href="#"><i data-feather="tag"></i></a></li>' .
-                                                                            '</ul> ' .
-                                                                            '</div>' .
-                                                                            '<div class="content-general"> ' .
-                                                                            '<p class="desc_0"> is beautifully crafted, clean and modern designed admin theme with 6 different demos and light - dark versions.</p><span class="collection_0">General</span>' .
-                                                                            '</div> ' .
-                                                                            '</div>' .
-                                                                            '</div> ' .
-                                                                            '</div>' .
-                                                                            '</div>' .
+                                                                    if ($result->num_rows) {
+                                                                        while ($row = mysqli_fetch_array($result)) {
+                                                                            echo '<div class="col-xl-3 col-md-3">' .
+                                                                                '<div class="card card-with-border bookmark-card o-hidden">' .
+                                                                                '<div class="details-website"><img class="img-fluid" src="' . BASE_URL . '/storage/modules/' . $row['image'] . '" alt="">' .
+                                                                                '<div class="favourite-icon favourite_0 w-0 "><button class="btn-transparent text-white" onclick="change_status(' . $row['id'] . ', 1)">Publish</button></div> ' .
+                                                                                '<div class="desciption-data">' .
+                                                                                '<div class="title-bookmark"> ' .
+                                                                                '<h6 class="title_0">' . $row['name'] . ' <span class="label label-primary p-2"> ' . $row['code'] . ' </span></h6>' .
+                                                                                '<p class="weburl_0">' . $row['description'] . '</p>' .
+                                                                                '<div class="hover-block">' .
+                                                                                '<ul> ' .
+                                                                                '<li><a href="" onclick="editBookmark(0)" data-bs-toggle="modal" data-bs-target="#edit-bookmark"><i data-feather="edit-2"></i></a></li>' .
+                                                                                '<li><a href="#"><i data-feather="link"></i></a></li> ' .
+                                                                                '<li><a href="#"><i data-feather="share-2"></i></a></li>' .
+                                                                                '<li><a href="#"><i data-feather="trash-2"></i></a></li> ' .
+                                                                                '<li class="pull-right text-end"><a href="#"><i data-feather="tag"></i></a></li>' .
+                                                                                '</ul> ' .
+                                                                                '</div>' .
+                                                                                '<div class="content-general"> ' .
+                                                                                '<p class="desc_0"> is beautifully crafted, clean and modern designed admin theme with 6 different demos and light - dark versions.</p><span class="collection_0">General</span>' .
+                                                                                '</div> ' .
+                                                                                '</div>' .
+                                                                                '</div> ' .
+                                                                                '</div>' .
+                                                                                '</div>' .
+                                                                                '</div>';
+                                                                        }
+                                                                    } else {
+                                                                        echo '<div class="col-sm-12 alert alert-light dark alert-dismissible fade show" role="alert">' .
+                                                                            '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-triangle"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12" y2="17"></line></svg>' .
+                                                                            '<p>No unpublished course.</p>' .
+                                                                            '<button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close" data-bs-original-title="" title=""></button>' .
                                                                             '</div>';
                                                                     }
+
                                                                     ?>
 
                                                                 </div>
