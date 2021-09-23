@@ -2,6 +2,13 @@
 require($_SERVER['DOCUMENT_ROOT'] . '/config/session.php');
 require($_SERVER['DOCUMENT_ROOT'] . '/database/connection.php');
 $sess->check();
+
+if (isset($_GET['page'])) {
+    $code = $_GET['page'];
+    $query = "SELECT * FROM tbl_courses WHERE code='$code' LIMIT 1";
+    $result = mysqli_query($conn, $query) or die(mysqli_error($conn));
+    $course = mysqli_fetch_array($result);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,6 +24,8 @@ $sess->check();
     <?php require($_SERVER['DOCUMENT_ROOT'] . '/assets/CSS.php') ?>
     <link rel="stylesheet" type="text/css" href="/assets/custom/css/teacher.css">
     <input type="hidden" id="base_url" value="<?php echo BASE_URL ?>">
+    <input type="hidden" id="course-id" value="<?php echo $course['id'] ?>">
+    <input type="hidden" id="course-status" value="<?php echo $course['status'] ?>">
 </head>
 
 <body>
@@ -34,7 +43,7 @@ $sess->check();
                     <div class="page-title">
                         <div class="row">
                             <div class="col-6">
-                                <h3>Courses</h3>
+                                <h3><?php echo $course['name'] ?> Course</h3>
                             </div>
                             <div class="col-6">
                                 <ol class="breadcrumb">
@@ -50,13 +59,22 @@ $sess->check();
                 <div class="container-fluid">
                     <div class="email-wrap bookmark-wrap">
                         <div class="row">
-                            <div class="col-sm-2">
+                            <div class="col-lg-2 col-md-12">
                                 <div class="email-left-aside">
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="email-app-sidebar left-bookmark">
                                                 <ul class="nav main-menu" role="tablist">
-                                                    <li class="nav-item"></li>
+                                                    <li class="nav-item">
+                                                        <div class="media mb-2 publish-div">
+                                                            <label class="col-form-label p-2 mt-1 fs-15">Publish</label>
+                                                            <div class="media-body text-end icon-state">
+                                                                <label class="switch">
+                                                                    <input id="publish-chbox" type="checkbox"><span class="switch-state"></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </li>
                                                     <li class="nav-item"><a href="" class="m-1">Home</a></li>
                                                     <li class="nav-item"><a href="" class="m-1">Announcements</a></li>
                                                     <li class="nav-item"><a href="" class="m-1">Grades</a></li>
@@ -102,7 +120,7 @@ $sess->check();
     </div>
     <?php require($_SERVER['DOCUMENT_ROOT'] . '/assets/JS.php') ?>
     <script src="<?php echo BASE_URL ?>/assets/cuba/assets/js/sidebar-menu.js"></script>
-    <script src="<?php echo BASE_URL ?>/assets/custom/js/modules/teacher/dashboard.js"></script>
+    <script src="<?php echo BASE_URL ?>/assets/custom/js/modules/teacher/courses.js"></script>
 </body>
 
 </html>

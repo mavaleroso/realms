@@ -10,10 +10,12 @@ $mConfig = new Config();
 
 if (isset($_GET['func'])) {
     switch ($_GET['func']) {
-        case 'add_course':
+        case 'create':
             $course->add_course();
             break;
-
+        case 'status':
+            $course->status_course();
+            break;
         default:
             # code...
             break;
@@ -43,5 +45,15 @@ class Course
                 }
             }
         }
+    }
+
+    function status_course()
+    {
+        global $conn;
+        $id = $_POST['id'];
+        $status = $_POST['status'];
+        $result = $conn->query("UPDATE tbl_courses SET status = $status WHERE id = $id");
+
+        return $result;
     }
 }
