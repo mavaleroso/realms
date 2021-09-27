@@ -22,6 +22,7 @@ if (isset($_GET['page'])) {
     <meta name="author" content="pixelstrap">
     <title><?php echo APP_NAME ?> | Courses</title>
     <?php require($_SERVER['DOCUMENT_ROOT'] . '/assets/CSS.php') ?>
+    <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL ?>/assets/cuba/assets/css/vendors/dropzone.css">
     <link rel="stylesheet" type="text/css" href="/assets/custom/css/teacher.css">
     <input type="hidden" id="base_url" value="<?php echo BASE_URL ?>">
     <input type="hidden" id="course-id" value="<?php echo $course['id'] ?>">
@@ -75,15 +76,15 @@ if (isset($_GET['page'])) {
                                                             </div>
                                                         </div>
                                                     </li>
-                                                    <li class="nav-item"><a href="" class="m-1">Home</a></li>
-                                                    <li class="nav-item"><a href="" class="m-1">Announcements</a></li>
-                                                    <li class="nav-item"><a href="" class="m-1">Grades</a></li>
-                                                    <li class="nav-item"><a href="" class="m-1">People</a></li>
-                                                    <li class="nav-item"><a href="" class="m-1">Files</a></li>
-                                                    <li class="nav-item"><a href="" class="m-1">Syllabus</a></li>
-                                                    <li class="nav-item"><a href="" class="m-1">Quizzes</a></li>
-                                                    <li class="nav-item"><a href="" class="m-1">Modules</a></li>
-                                                    <li class="nav-item"><a href="" class="m-1">Settings</a></li>
+                                                    <li class="nav-item courses-link active"><a href="<?php echo BASE_URL ?>/modules/teacher/courses/home?page=<?php echo $course['code'] ?>" class="m-1">Home</a></li>
+                                                    <li class="nav-item courses-link"><a href="<?php echo BASE_URL ?>/modules/teacher/courses/announcements?page=<?php echo $course['code'] ?>" class="m-1">Announcements</a></li>
+                                                    <li class="nav-item courses-link"><a href="<?php echo BASE_URL ?>/modules/teacher/courses/grades?page=<?php echo $course['code'] ?>" class="m-1">Grades</a></li>
+                                                    <li class="nav-item courses-link"><a href="<?php echo BASE_URL ?>/modules/teacher/courses/people?page=<?php echo $course['code'] ?>" class="m-1">People</a></li>
+                                                    <li class="nav-item courses-link"><a href="<?php echo BASE_URL ?>/modules/teacher/courses/files?page=<?php echo $course['code'] ?>" class="m-1">Files</a></li>
+                                                    <li class="nav-item courses-link"><a href="<?php echo BASE_URL ?>/modules/teacher/courses/syllabus?page=<?php echo $course['code'] ?>" class="m-1">Syllabus</a></li>
+                                                    <li class="nav-item courses-link"><a href="<?php echo BASE_URL ?>/modules/teacher/courses/quizzes?page=<?php echo $course['code'] ?>" class="m-1">Quizzes</a></li>
+                                                    <li class="nav-item courses-link"><a href="<?php echo BASE_URL ?>/modules/teacher/courses/modules?page=<?php echo $course['code'] ?>" class="m-1">Modules</a></li>
+                                                    <li class="nav-item courses-link"><a href="<?php echo BASE_URL ?>/modules/teacher/courses/settings?page=<?php echo $course['code'] ?>" class="m-1">Settings</a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -94,17 +95,19 @@ if (isset($_GET['page'])) {
                                 <div class="email-left-aside">
                                     <div class="card">
                                         <div class="card-body">
-                                            <div class="email-app-sidebar left-bookmark">
-                                                <div class="media">
-                                                    <div class="media-body">
-                                                        <h6 class="f-w-600">Course Status</h6>
+                                            <div class="email-app-sidebar left-bookmark w-100">
+                                                <div class="media ">
+                                                    <div class="media-body d-flex">
+                                                        <h6 class="f-w-600">Home</h6>
+                                                        <button class="btn btn-primary ml-auto"><i class="fa fa-plus mr-1"></i>Add Module</button>
                                                     </div>
                                                 </div>
-                                                <ul class="nav main-menu" role="tablist">
-                                                    <li class="nav-item">
-
-                                                    </li>
-                                                </ul>
+                                                <hr>
+                                                <form class="dropzone dz-clickable" id="singleFileUpload" action="/upload.php">
+                                                    <div class="dz-message needsclick"><i class="icon-cloud-up"></i>
+                                                        <h6>Drop files here or click to upload.</h6>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -120,6 +123,8 @@ if (isset($_GET['page'])) {
     </div>
     <?php require($_SERVER['DOCUMENT_ROOT'] . '/assets/JS.php') ?>
     <script src="<?php echo BASE_URL ?>/assets/cuba/assets/js/sidebar-menu.js"></script>
+    <script src="<?php echo BASE_URL ?>/assets/cuba/assets/js/dropzone/dropzone.js"></script>
+    <script src="<?php echo BASE_URL ?>/assets/cuba/assets/js/dropzone/dropzone-script.js"></script>
     <script src="<?php echo BASE_URL ?>/assets/custom/js/modules/teacher/courses.js"></script>
 </body>
 

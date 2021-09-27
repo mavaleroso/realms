@@ -78,7 +78,7 @@ $sess->check();
                                                                                 '<div class="favourite-icon favourite_0 w-0 "><button class="btn-transparent text-white" onclick="change_status(' . $row['id'] . ', 0)">unpublish</button></div> ' .
                                                                                 '<div class="desciption-data">' .
                                                                                 '<div class="title-bookmark"> ' .
-                                                                                '<h6 class="title_0">' . $row['name'] . '</h6>' .
+                                                                                '<h6 class="title_0"><a href="' . BASE_URL . '/modules/teacher/courses/home?page=' . $row['code'] . '">' . $row['name'] . ' </a><span class="label label-primary p-2"> ' . $row['code'] . ' </span></h6>' .
                                                                                 '<p class="weburl_0">' . $row['description'] . '</p>' .
                                                                                 '<div class="hover-block">' .
                                                                                 '<ul> ' .
@@ -367,7 +367,7 @@ $sess->check();
                                                                                 '<div class="favourite-icon favourite_0 w-0 "><button class="btn-transparent text-white" onclick="change_status(' . $row['id'] . ', 1)">Publish</button></div> ' .
                                                                                 '<div class="desciption-data">' .
                                                                                 '<div class="title-bookmark"> ' .
-                                                                                '<h6 class="title_0">' . $row['name'] . ' <span class="label label-primary p-2"> ' . $row['code'] . ' </span></h6>' .
+                                                                                '<h6 class="title_0"><a href="' . BASE_URL . '/modules/teacher/courses/home?page=' . $row['code'] . '">' . $row['name'] . ' </a><span class="label label-primary p-2"> ' . $row['code'] . ' </span></h6>' .
                                                                                 '<p class="weburl_0">' . $row['description'] . '</p>' .
                                                                                 '<div class="hover-block">' .
                                                                                 '<ul> ' .

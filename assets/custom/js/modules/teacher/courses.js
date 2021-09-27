@@ -24,6 +24,7 @@ $("#publish-chbox").click(function (e) {
     cancelButtonColor: "#d33",
     confirmButtonText: "Yes, " + status_text + " course",
   }).then((result) => {
+    ``;
     if (result.isConfirmed) {
       $.ajax({
         url: BASE_URL + "/models/modules/teacher/model_course?func=status",
