@@ -64,7 +64,7 @@ if (isset($_GET['page'])) {
                                 <div class="email-left-aside">
                                     <div class="card">
                                         <div class="card-body">
-                                            <div class="email-app-sidebar left-bookmark">
+                                            <div class="email-app-sidebar left-bookmark ">
                                                 <ul class="nav main-menu" role="tablist">
                                                     <li class="nav-item">
                                                         <div class="media mb-2 publish-div">
@@ -95,24 +95,112 @@ if (isset($_GET['page'])) {
                                 <div class="email-left-aside">
                                     <div class="card">
                                         <div class="card-body">
-                                            <div class="email-app-sidebar left-bookmark w-100">
+                                            <div class="w-100 min-height-700">
                                                 <div class="media ">
                                                     <div class="media-body d-flex">
                                                         <h6 class="f-w-600">Home</h6>
-                                                        <button class="btn btn-primary ml-auto"><i class="fa fa-plus mr-1"></i>Add Module</button>
+                                                        <button class="btn btn-primary ml-auto" data-bs-toggle="modal" data-bs-target="#moduleModal"><i class="fa fa-plus mr-1"></i>Add Module</button>
                                                     </div>
                                                 </div>
                                                 <hr>
-                                                <form class="dropzone dz-clickable" id="singleFileUpload" action="/upload.php">
-                                                    <div class="dz-message needsclick"><i class="icon-cloud-up"></i>
-                                                        <h6>Drop files here or click to upload.</h6>
-                                                    </div>
-                                                </form>
+                                                <?php
+                                                $query = "SELECT * FROM tbl_modules WHERE course_id=" . $course['id'];
+                                                $result = mysqli_query($conn, $query) or die(mysqli_error($conn));
+                                                $i = 0;
+                                                if ($result->num_rows) {
+                                                    while ($row = mysqli_fetch_array($result)) {
+
+                                                        $queryFile = "SELECT * FROM tbl_files WHERE module_id=" . $row['id'];
+                                                        $resultFile = mysqli_query($conn, $queryFile) or die(mysqli_error($conn));
+                                                        $files1 = '';
+                                                        while ($row1 = mysqli_fetch_array($resultFile)) {
+                                                            $checked1 = $row1['status'] != 0 ? 'checked' : '';
+
+                                                            $files1 .= '<div class="w-100 file-div d-flex">' .
+                                                                '<i class="fa fa-paperclip"></i>' .
+                                                                '<a href="' . BASE_URL . '/modules/teacher/courses/files?page=' . $course['code'] . '&file=' . $row1['temp_name'] . '" class="text-dark">' . $row1['original_name'] . '</a>' .
+                                                                '<div class="file-switch text-end switch-sm mr-2">' .
+                                                                '<label class="switch">' .
+                                                                '<input class="file-status" type="checkbox" data-id="' . $row1['id'] . '" ' . $checked1 . '><span class="switch-state"></span>' .
+                                                                '</label>' .
+                                                                '</div>' .
+                                                                '<button class="btn-none text-white w-0 " onclick="deleteFile(' . $row1['id'] . ')"><i class="fa fa-trash fs-18 text-dark"></i></button>' .
+                                                                '</div>';
+                                                        }
+
+
+                                                        $checked = $row['status'] ? 'checked' : '';
+                                                        $show = $i == 0 ? 'show' : '';
+
+                                                        echo '<div class="default-according style-1" id="accordionoc">' .
+                                                            '<div class="card my-2">' .
+                                                            '<div class="card-header bg-primary">' .
+                                                            '<h5 class="mb-0 d-flex">' .
+                                                            '<button class="btn btn-link text-white" data-bs-toggle="collapse" data-bs-target="#collapseicon' . $i . '" aria-expanded="true" aria-controls="collapse11">' . $row['name'] . '</button>' .
+                                                            '<div class="media-body text-end switch-sm mr-2">' .
+                                                            '<label class="switch">' .
+                                                            '<input class="module-status" data-id="' . $row['id'] . '" type="checkbox" ' . $checked . '><span class="switch-state"></span>' .
+                                                            '</label>' .
+                                                            '</div>' .
+                                                            '<button class="btn-none text-white w-0 mt-n5"><i class="fa fa-plus fs-18"></i></button>' .
+                                                            '<button class="btn-none text-white w-0 mt-n5 mr-5" onclick="deleteModule(' . $row['id'] . ')"><i class="fa fa-trash fs-18"></i></button>' .
+                                                            '</h5>' .
+                                                            '</div>' .
+                                                            '<div class="collapse ' . $show . '" id="collapseicon' . $i . '" aria-labelledby="collapseicon' . $i . '" data-bs-parent="#accordionoc">' .
+                                                            '<div class="card-body">' . $files1 .
+                                                            '<form class="dropzone dz-clickable" id="multiFileUpload' . $i . '" action="' . BASE_URL . '/models/modules/teacher/model_files?func=upload&id=' . $row['id'] . '">' .
+                                                            '<div class="dz-message needsclick"><i class="icon-cloud-up"></i>' .
+                                                            '<h6>Drop files here or click to upload.</h6>' .
+                                                            '</div>' .
+                                                            '</form>' .
+                                                            '</div>' .
+                                                            '</div>' .
+                                                            '</div>' .
+                                                            '</div>';
+
+
+                                                        $i++;
+                                                    }
+                                                } else {
+                                                    echo '<div class="alert alert-light dark alert-dismissible fade show" role="alert"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-triangle">' .
+                                                        '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>' .
+                                                        '<line x1="12" y1="9" x2="12" y2="13"></line>' .
+                                                        '<line x1="12" y1="17" x2="12" y2="17"></line>' .
+                                                        '</svg>' .
+                                                        '<p> No modules created.</p>' .
+                                                        '<button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>' .
+                                                        '</div>';
+                                                }
+                                                ?>
+
+
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="moduleModal" tabindex="-1" aria-labelledby="moduleModal" style="display: none;" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <form id="module-form">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Create Module</h5>
+                                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="module-name">Module name:</label>
+                                        <input class="form-control" name="module_name" id="module-name" type="text" required>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
+                                    <button class="btn btn-primary" type="submit">Save changes</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

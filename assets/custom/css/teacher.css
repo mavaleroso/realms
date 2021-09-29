@@ -16,6 +16,11 @@
   width: auto !important;
 }
 
+.btn-none {
+  background-color: transparent !important;
+  border: none !important;
+}
+
 #dashboard .bookmark-wrap .left-bookmark {
   height: auto !important;
 }
@@ -78,4 +83,66 @@
 
 .mr-5 {
   margin-right: 2.5rem !important;
+}
+
+.mt-1 {
+  margin-top: 0.5rem !important;
+}
+
+.mt-2 {
+  margin-top: 1rem !important;
+}
+
+.mt-3 {
+  margin-top: 1.5rem !important;
+}
+
+.mt-4 {
+  margin-top: 2rem !important;
+}
+
+.mt-5 {
+  margin-top: 2.5rem !important;
+}
+
+.fs-18 {
+  font-size: 18px !important;
+}
+
+.mt-n5 {
+  margin-top: -5px !important;
+}
+
+.min-height-700 {
+  min-height: 700px !important;
+}
+
+.w-max {
+  width: max-content !important;
+}
+
+.file-div {
+  background: #eee;
+  padding: 13px;
+  border-radius: 3px;
+  margin-bottom: 3px;
+  border: 1px solid #608dff;
+  font-weight: bold;
+}
+
+.file-div i {
+  margin: 0 11px;
+  font-size: 20px;
+}
+
+.text-dark {
+  color: #555 !important;
+}
+
+.file-switch {
+  margin: 0px;
+  padding: 0;
+  height: 10px;
+  margin-top: -6px;
+  margin-left: auto;
 }
