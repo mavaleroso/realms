@@ -29,7 +29,7 @@ class Course
         global $conn;
         global $mConfig;
         $code = $mConfig->course_code();
-        $valid_extensions = array('jpeg', 'jpg', 'png', 'gif', 'bmp', 'pdf', 'doc', 'ppt');
+        $valid_extensions = array('jpeg', 'jpg', 'png');
         $path = $_SERVER['DOCUMENT_ROOT'] . '/storage/modules/';
         if (!empty($_POST['courseName']) || !empty($_POST['courseDesc']) || $_FILES['image']) {
             $img = $_FILES['image']['name'];
