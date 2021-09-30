@@ -26,6 +26,7 @@ if (isset($_GET['page'])) {
     <input type="hidden" id="base_url" value="<?php echo BASE_URL ?>">
     <input type="hidden" id="course-id" value="<?php echo $course['id'] ?>">
     <input type="hidden" id="course-status" value="<?php echo $course['status'] ?>">
+    <input type="hidden" id="course-code" value="<?php echo $course['code'] ?>">
 </head>
 
 <body>
@@ -94,17 +95,43 @@ if (isset($_GET['page'])) {
                                 <div class="email-left-aside">
                                     <div class="card">
                                         <div class="card-body">
-                                            <div class="email-app-sidebar left-bookmark">
-                                                <div class="media">
-                                                    <div class="media-body">
-                                                        <h6 class="f-w-600">Course Status</h6>
+                                            <div class="w-100 min-height-700">
+                                                <div class="media ">
+                                                    <div class="media-body d-flex">
+                                                        <h6 class="f-w-600">Quizzes</h6>
+                                                        <button class="btn btn-primary ml-auto" onclick="createQuiz()"><i class="fa fa-plus mr-1"></i>Add Quiz</button>
                                                     </div>
                                                 </div>
-                                                <ul class="nav main-menu" role="tablist">
-                                                    <li class="nav-item">
-
-                                                    </li>
-                                                </ul>
+                                                <hr>
+                                                <?php
+                                                $query = "SELECT * FROM tbl_quizzes WHERE course_id=" . $course['id'];
+                                                $result = mysqli_query($conn, $query) or die(mysqli_error($conn));
+                                                $i = 0;
+                                                if ($result->num_rows) {
+                                                    while ($row = mysqli_fetch_array($result)) {
+                                                        echo '<div class="d-flex quiz-div mb-2">' .
+                                                            '<i class="fa fa-rocket"></i>' .
+                                                            '<a href="#">' . ($row['name'] ? $row['name'] : 'Unnamed') . ' Quiz</a>' .
+                                                            '<div class="file-switch text-end switch-sm mr-2">' .
+                                                            '<label class="switch">' .
+                                                            '<input class="quiz-status" type="checkbox" ><span class="quiz-switch-state switch-state"></span>' .
+                                                            '</label>' .
+                                                            '</div>' .
+                                                            '<button class="btn-none"><i class="fa fa-edit"></i></button>' .
+                                                            '<button class="btn-none"><i class="fa fa-trash"></i></button>' .
+                                                            '</div>';
+                                                    }
+                                                } else {
+                                                    echo '<div class="alert alert-light dark alert-dismissible fade show" role="alert"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-triangle">' .
+                                                        '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>' .
+                                                        '<line x1="12" y1="9" x2="12" y2="13"></line>' .
+                                                        '<line x1="12" y1="17" x2="12" y2="17"></line>' .
+                                                        '</svg>' .
+                                                        '<p> No quizzes created.</p>' .
+                                                        '<button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>' .
+                                                        '</div>';
+                                                }
+                                                ?>
                                             </div>
                                         </div>
                                     </div>
