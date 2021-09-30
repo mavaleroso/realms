@@ -146,3 +146,19 @@
   margin-top: -6px;
   margin-left: auto;
 }
+
+.quiz-div {
+  background: #eee;
+  border-radius: 7px;
+  padding: 16px;
+  border: 1px solid #d1d1d1;
+}
+
+.quiz-div i {
+  font-size: 20px;
+  margin: 0 11px;
+}
+
+.quiz-switch-state {
+  background-color: #555;
+}

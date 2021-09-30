@@ -286,3 +286,32 @@ $(".dropzone").dropzone({
     }, 2000);
   },
 });
+
+//QUIZZES
+
+function createQuiz() {
+  let id = $("#course-id").val();
+  let code = $("#course-code").val();
+  $.ajax({
+    url: BASE_URL + "/models/modules/teacher/model_quizzes?func=create",
+    type: "POST",
+    data: {
+      id,
+    },
+    success: function (data, status) {
+      myToast("success", "Quiz created successfully!", "top-end", 2000);
+      setTimeout(() => {
+        location.reload();
+        window.location.href =
+          BASE_URL +
+          "/modules/teacher/courses/quizzes/edit?page=" +
+          code +
+          "&quiz_id=" +
+          data;
+      }, 2000);
+    },
+    error: function (e) {
+      myToast("error", "Quiz created unsuccessfully!", "top-end", 2000);
+    },
+  });
+}

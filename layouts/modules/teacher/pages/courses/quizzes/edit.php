@@ -22,6 +22,7 @@ if (isset($_GET['page'])) {
     <meta name="author" content="pixelstrap">
     <title><?php echo APP_NAME ?> | Courses</title>
     <?php require($_SERVER['DOCUMENT_ROOT'] . '/assets/CSS.php') ?>
+    <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL ?>/assets/cuba/assets/css/vendors/simple-mde.css">
     <link rel="stylesheet" type="text/css" href="/assets/custom/css/teacher.css">
     <input type="hidden" id="base_url" value="<?php echo BASE_URL ?>">
     <input type="hidden" id="course-id" value="<?php echo $course['id'] ?>">
@@ -81,8 +82,8 @@ if (isset($_GET['page'])) {
                                                     <li class="nav-item courses-link"><a href="<?php echo BASE_URL ?>/modules/teacher/courses/people?page=<?php echo $course['code'] ?>" class="m-1">People</a></li>
                                                     <li class="nav-item courses-link"><a href="<?php echo BASE_URL ?>/modules/teacher/courses/files?page=<?php echo $course['code'] ?>" class="m-1">Files</a></li>
                                                     <li class="nav-item courses-link"><a href="<?php echo BASE_URL ?>/modules/teacher/courses/syllabus?page=<?php echo $course['code'] ?>" class="m-1">Syllabus</a></li>
-                                                    <li class="nav-item courses-link"><a href="<?php echo BASE_URL ?>/modules/teacher/courses/quizzes/list?page=<?php echo $course['code'] ?>" class="m-1">Quizzes</a></li>
-                                                    <li class="nav-item courses-link active"><a href="<?php echo BASE_URL ?>/modules/teacher/courses/modules?page=<?php echo $course['code'] ?>" class="m-1">Modules</a></li>
+                                                    <li class="nav-item courses-link active"><a href="<?php echo BASE_URL ?>/modules/teacher/courses/quizzes/list?page=<?php echo $course['code'] ?>" class="m-1">Quizzes</a></li>
+                                                    <li class="nav-item courses-link"><a href="<?php echo BASE_URL ?>/modules/teacher/courses/modules?page=<?php echo $course['code'] ?>" class="m-1">Modules</a></li>
                                                     <li class="nav-item courses-link"><a href="<?php echo BASE_URL ?>/modules/teacher/courses/settings?page=<?php echo $course['code'] ?>" class="m-1">Settings</a></li>
                                                 </ul>
                                             </div>
@@ -94,17 +95,34 @@ if (isset($_GET['page'])) {
                                 <div class="email-left-aside">
                                     <div class="card">
                                         <div class="card-body">
-                                            <div class="email-app-sidebar left-bookmark">
-                                                <div class="media">
-                                                    <div class="media-body">
-                                                        <h6 class="f-w-600">Course Status</h6>
+                                            <div class="w-100 min-height-700">
+                                                <div class="media ">
+                                                    <div class="media-body d-flex">
+                                                        <h6 class="f-w-600">Create Quiz</h6>
+                                                        <a href="<?php echo BASE_URL ?>/modules/teacher/courses/quizzes/edit?page=<?php echo $course['code'] ?>" class="btn btn-primary ml-auto"><i class="fa fa-trash mr-1"></i>Delete Quiz</a>
                                                     </div>
                                                 </div>
-                                                <ul class="nav main-menu" role="tablist">
-                                                    <li class="nav-item">
+                                                <hr>
+                                                <div class="card-body">
+                                                    <ul class="nav nav-tabs border-tab nav-primary" id="info-tab" role="tablist">
+                                                        <li class="nav-item"><a class="nav-link active" id="info-home-tab" data-bs-toggle="tab" href="#info-home" role="tab" aria-controls="info-home" aria-selected="true"><i class="icofont icofont-info-circle"></i>Details</a></li>
+                                                        <li class="nav-item"><a class="nav-link" id="profile-info-tab" data-bs-toggle="tab" href="#info-profile" role="tab" aria-controls="info-profile" aria-selected="false"><i class="icofont icofont-question-circle"></i>Questions</a></li>
+                                                    </ul>
+                                                    <div class="tab-content" id="info-tabContent">
+                                                        <div class="tab-pane fade active show" id="info-home" role="tabpanel" aria-labelledby="info-home-tab">
+                                                            <div class="mb-3 w-50">
+                                                                <label class="form-label" for="quiz-name">Name:</label>
+                                                                <input class="form-control" id="quiz-name w-50" type="text">
+                                                            </div>
+                                                            <p>Quiz Instructions</p>
 
-                                                    </li>
-                                                </ul>
+                                                            <textarea class="CodeMirror" id="smde1" style="display: none;"></textarea>
+                                                        </div>
+                                                        <div class="tab-pane fade" id="info-profile" role="tabpanel" aria-labelledby="profile-info-tab">
+                                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -120,7 +138,10 @@ if (isset($_GET['page'])) {
     </div>
     <?php require($_SERVER['DOCUMENT_ROOT'] . '/assets/JS.php') ?>
     <script src="<?php echo BASE_URL ?>/assets/cuba/assets/js/sidebar-menu.js"></script>
+
     <script src="<?php echo BASE_URL ?>/assets/custom/js/modules/teacher/courses.js"></script>
+    <script src="<?php echo BASE_URL ?>/assets/cuba/assets/js/editor/simple-mde/simplemde.min.js"></script>
+    <script src="<?php echo BASE_URL ?>/assets/cuba/assets/js/editor/simple-mde/simplemde.custom.js"></script>
 </body>
 
 </html>
