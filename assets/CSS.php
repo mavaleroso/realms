@@ -14,6 +14,7 @@
 <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL ?>/assets/cuba/assets/css/vendors/flag-icon.css">
 <!-- Feather icon-->
 <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL ?>/assets/cuba/assets/css/vendors/feather-icon.css">
+<link rel="stylesheet" type="text/css" href="<?php echo BASE_URL ?>/assets/cuba/assets/css/vendors/select2.css">
 <!-- Plugins css start-->
 <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL ?>/assets/cuba/assets/css/vendors/scrollbar.css">
 <!-- Plugins css Ends-->
