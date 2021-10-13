@@ -1,7 +1,9 @@
 <?php
 require($_SERVER['DOCUMENT_ROOT'] . '/config/session.php');
 require($_SERVER['DOCUMENT_ROOT'] . '/database/connection.php');
+require($_SERVER['DOCUMENT_ROOT'] . '/models/elements/element_course.php');
 $sess->check();
+$elemCourse = new Form();
 
 if (isset($_GET['page'])) {
     $code = $_GET['page'];
@@ -114,136 +116,73 @@ if (isset($_GET['page'])) {
                                                     </ul>
                                                     <div class="tab-content" id="info-tabContent">
                                                         <div class="tab-pane fade active show" id="info-home" role="tabpanel" aria-labelledby="info-home-tab">
-                                                            <div class="mb-3 w-50">
-                                                                <label class="form-label font-weight-bold" for="quiz-name">Name:</label>
-                                                                <input class="form-control" id="quiz-name" type="text">
-                                                            </div>
+                                                            <form id="quiz-form" method="POST">
 
-                                                            <label class="form-label font-weight-bold">Quiz Instructions:</label>
-                                                            <div id="quiz-instruction"></div>
+                                                                <div class="mb-3 w-50">
+                                                                    <label class="form-label font-weight-bold" for="quiz-name">Name:</label>
+                                                                    <input class="form-control" id="quiz-name" name="quiz_name" type="text" required>
+                                                                </div>
 
-                                                            <label class="form-label font-weight-bold">Options:</label>
+                                                                <label class="form-label font-weight-bold">Quiz Instructions:</label>
+                                                                <div id="quiz-instruction"></div>
 
-                                                            <div class="d-flex">
+                                                                <label class="form-label font-weight-bold">Options:</label>
+
+                                                                <div class="d-flex">
+                                                                    <div class="form-check checkbox mb-0">
+                                                                        <input class="form-check-input" id="is_time_Limit" type="checkbox">
+                                                                        <label class="form-check-label" for="is_time_Limit" name="is_time_limit">Time limit</label>
+                                                                    </div>
+                                                                    <div class="d-flex ml-4">
+                                                                        <input class="form-control w-25" id="time_limit" name="time_limit" type="number" disabled>
+                                                                        <label class="form-label p-2" for="time_limit">Minutes</label>
+                                                                    </div>
+                                                                </div>
+
                                                                 <div class="form-check checkbox mb-0">
-                                                                    <input class="form-check-input" id="is_time_Limit" type="checkbox">
-                                                                    <label class="form-check-label" for="is_time_Limit">Time limit</label>
+                                                                    <input class="form-check-input" id="multiple_attempts" type="checkbox" name="is_multiple_attempts">
+                                                                    <label class="form-check-label" for="multiple_attempts">Allow multiple attempts</label>
                                                                 </div>
-                                                                <div class="d-flex ml-4">
-                                                                    <input class="form-control w-25" id="time_limit" type="number" disabled>
-                                                                    <label class="form-label p-2" for="time_limit">Minutes</label>
+
+                                                                <label class="form-label font-weight-bold mt-4">Assign:</label>
+                                                                <div class="mb-3 w-50">
+                                                                    <label class="form-label" for="assign_to">Assign to:</label>
+                                                                    <select name="assign_to" id="assign-to" multiple>
+                                                                        <option value="0">Test</option>
+                                                                        <option value="1">Test1</option>
+                                                                        <option value="2">Test2</option>
+                                                                        <option value="3">Test3</option>
+                                                                    </select>
                                                                 </div>
-                                                            </div>
+                                                                <div class="mb-3 w-50">
+                                                                    <label class="form-label" for="assign-due">Due:</label>
+                                                                    <input class="form-control w-100" id="assign-due" name="assign_due" type="date">
+                                                                </div>
+                                                                <div class="mb-3 w-50">
+                                                                    <label class="form-label" for="available-from">Available from:</label>
+                                                                    <input class="form-control" id="available-from" name="available_from" type="date">
+                                                                </div>
+                                                                <div class="mb-3 w-50">
+                                                                    <label class="form-label" for="available-to">Available to:</label>
+                                                                    <input class="form-control" id="available-to" name="available_to" type="date">
+                                                                </div>
 
-                                                            <div class="form-check checkbox mb-0">
-                                                                <input class="form-check-input" id="multiple_attempts" type="checkbox">
-                                                                <label class="form-check-label" for="multiple_attempts">Allow multiple attempts</label>
-                                                            </div>
-
-                                                            <label class="form-label font-weight-bold mt-4">Assign:</label>
-                                                            <div class="mb-3 w-50">
-                                                                <label class="form-label" for="assign_to">Assign to:</label>
-                                                                <select name="assign_to" id="assign-to" multiple>
-                                                                    <option value="">Test</option>
-                                                                    <option value="">Test1</option>
-                                                                    <option value="">Test2</option>
-                                                                    <option value="">Test3</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="mb-3 w-50">
-                                                                <label class="form-label" for="assign-due">Due:</label>
-                                                                <input class="form-control w-100" id="assign-due" type="date">
-                                                            </div>
-                                                            <div class="mb-3 w-50">
-                                                                <label class="form-label" for="available-from">Available from:</label>
-                                                                <input class="form-control" id="available-from" type="date">
-                                                            </div>
-                                                            <div class="mb-3 w-50">
-                                                                <label class="form-label" for="available-to">Available to:</label>
-                                                                <input class="form-control" id="available-to" type="date">
-                                                            </div>
-
-
+                                                            </form>
                                                         </div>
                                                         <div class="tab-pane fade" id="info-profile" role="tabpanel" aria-labelledby="profile-info-tab">
                                                             <button class="btn btn-light" onclick="newQuestion()"><i class="fa fa-plus"></i> New Question</button>
-                                                            <div class="questions-area">
-                                                                <!-- <div class="card mt-3">
-                                                                    <div class="card-body">
-                                                                        <div class="d-flex">
-                                                                            <div class="mr-2">
-                                                                                <label class="form-label" for="question-name">Name:</label>
-                                                                                <input class="form-control" type="text" name="question-name">
-                                                                            </div>
-                                                                            <div>
-                                                                                <label class="form-label" form="question_type">Type:</label>
-                                                                                <select class="question-type" name="question_type">
-                                                                                    <option value="0">Multiple Choices</option>
-                                                                                    <option value="1">True / False</option>
-                                                                                    <option value="2">Essay Question</option>
-                                                                                    </optgroup>
-                                                                                </select>
-                                                                            </div>
-                                                                            <div class="ml-auto w-7">
-                                                                                <label class="form-label" for="question_points">Points:</label>
-                                                                                <input class="form-control" type="number" name="question_points">
-                                                                            </div>
-                                                                        </div>
-                                                                        <hr>
-                                                                        <sup>Enter your question and multiple answers, then select the one correct answer.</sup>
-                                                                        <br>
-                                                                        <label class="font-weight-bold">Questions:</label>
-                                                                        <div id="quiz-question"></div>
-                                                                        <label class="font-weight-bold mt-1">Answers:</label>
-                                                                        <div class="answer-div">
-                                                                            <div class="answer-area p-3 mb-2">
-                                                                                <div class="d-flex">
-                                                                                    <div>
-                                                                                        <button class="btn btn-sm btn-success mr-3 mt-2"><i class="fa fa-arrow-right"></i></button>
-                                                                                    </div>
-                                                                                    <div class="w-100">
-                                                                                        <label class="form-label text-success" for="answer_1">Correct Answer</label>
-                                                                                        <input class="form-control" type="text" name="answer_1">
-                                                                                    </div>
-                                                                                    <div>
-                                                                                        <button class="btn btn-sm btn-light ml-3 mb-1"><i class="fa fa-trash"></i></button>
-                                                                                        <button class="btn btn-sm btn-light ml-3"><i class="fa fa-commenting-o"></i></button>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="mt-2">
-                                                                                    <div class="answer-comment"></div>
-                                                                                    <button class="btn btn-sm btn-light">Done</button>
-                                                                                </div>
-                                                                            </div>
-                                                                            <hr>
-                                                                            <div class="answer-area p-3 mb-2">
-                                                                                <div class="d-flex">
-                                                                                    <div>
-                                                                                        <button class="btn btn-sm btn-light mr-3 mt-2"><i class="fa fa-arrow-right"></i></button>
-                                                                                    </div>
-                                                                                    <div class="w-100">
-                                                                                        <label class="form-label text-success" for="answer_1">Possible Answer</label>
-                                                                                        <input class="form-control" type="text" name="answer_1">
-                                                                                    </div>
-                                                                                    <div>
-                                                                                        <button class="btn btn-sm btn-light ml-3 mb-1"><i class="fa fa-trash"></i></button>
-                                                                                        <button class="btn btn-sm btn-light ml-3"><i class="fa fa-commenting-o"></i></button>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <button class="btn btn-sm btn-light mt-1"><i class="fa fa-plus"></i> Add another answer</button>
-                                                                    </div>
-                                                                </div> -->
-                                                            </div>
+                                                            <form id="question-form" method="POST">
+                                                                <div class="questions-area">
+                                                                </div>
+                                                            </form>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="card-footer p-1 mt-2">
                                                     <div class="d-flex">
                                                         <button class="btn btn-light mx-2">Cancel</button>
-                                                        <button class="btn btn-light mx-2">Save & Publish</button>
-                                                        <button class="btn btn-primary mx-2">Save</button>
+                                                        <button onclick="saveQuiz(1)" class="btn btn-light mx-2">Save & Publish</button>
+                                                        <button onclick="saveQuiz(0)" class="btn btn-primary mx-2">Save</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -266,23 +205,29 @@ if (isset($_GET['page'])) {
     <script>
         $(document).ready(() => {
             window.ini = function() {
-                $("#quiz-instruction").summernote({
-                    placeholder: "Type here ...",
-                    tabsize: 2,
-                    height: 200,
-                });
 
-                $("#quiz-question").summernote({
-                    placeholder: "Type here ...",
-                    tabsize: 2,
-                    height: 200,
-                });
+                setTimeout(() => {
+                    $("#quiz-instruction").summernote({
+                        placeholder: "Type here ...",
+                        tabsize: 2,
+                        height: 200,
+                    });
 
-                $(".answer-comment").summernote({
-                    placeholder: "Type here ...",
-                    tabsize: 2,
-                    height: 100,
-                });
+                    $("#quiz-question").summernote({
+                        placeholder: "Type here ...",
+                        tabsize: 2,
+                        height: 200,
+                    });
+
+                    $(".answer-comment").summernote({
+                        placeholder: "Type here ...",
+                        tabsize: 2,
+                        height: 100,
+                    });
+
+                    $('.answer-comment-area .note-editor').hide();
+                    $('.btn-comment-done').hide();
+                }, 500);
 
                 $("#assign-to").select2();
 
@@ -290,137 +235,50 @@ if (isset($_GET['page'])) {
                     minimumResultsForSearch: Infinity
                 });
 
-                $('.answer-comment-area .note-editor').hide();
-                $('.btn-comment-done').hide();
-            };
+                $('.question-type').on('select2:select', function(e) {
+                    let type = $(this).val();
+                    if (type == 'multipleChoice') {
+                        $('.btn-add-answer').show();
+                    } else {
+                        $('.btn-add-answer').hide();
+                    }
 
+                    if (type == 'essayQuestion') {
+                        $('.answers-lbl').hide();
+                    } else {
+                        $('.answers-lbl').show();
+                    }
+                    questionType(type);
+                    ini();
+                });
+
+                $('#is_time_Limit').change(function() {
+                    if ($(this).is(':checked')) {
+                        $('#time_limit').removeAttr('disabled');
+                    } else {
+                        $('#time_limit').attr('disabled', true);
+                    }
+                });
+
+            };
             ini();
         });
 
-        function newQuestion() {
-            $('.questions-area').append('' +
-                '<div class="card mt-3">' +
-                '<div class="card-body">' +
-                '<div class="d-flex">' +
-                '<div class="mr-2">' +
-                '<label class="form-label" for="question-name">Name: </label>' +
-                '<input class="form-control" type="text" name="question-name">' +
-                '</div>' +
-                '<div>' +
-                '<label class="form-label" form="question_type">Type:</label>' +
-                '<select class="question-type" name="question_type">' +
-                '<option value="0">Multiple Choices</option> ' +
-                '<option value="1">True / False</option>' +
-                '<option value="2">Essay Question</option> ' +
-                '</select>' +
-                '</div>' +
-                '<div class="ml-auto w-7">' +
-                '<label class="form-label" for="question_points">Points:</label>' +
-                '<input class="form-control" type="number" name="question_points" value="1">' +
-                '</div>' +
-                '</div>' +
-                '<hr>' +
-                '<sup>Enter your question and multiple answers, then select the one correct answer.</sup>' +
-                '<br>' +
-                '<label class="font-weight-bold">Questions:</label> ' +
-                '<div id="quiz-question"></div> ' +
-                '<label class="font-weight-bold mt-1">Answers:</label>' +
-                '<div class="answer-div">' +
-                '<div id="answer-area-1" class="answer-area p-3 mb-2">' +
-                '<div class="d-flex">' +
-                '<div>' +
-                '<button id="btn-answer-1" class="btn btn-sm btn-success mr-3 mt-2 btn-answer" onclick="correctAnswer(1)"><i class="fa fa-arrow-right"></i></button >' +
-                '</div>' +
-                '<div class="w-100">' +
-                '<label id="answer-lbl-1" class="form-label text-success answer-label" for="answer_1">Correct Answer</label>' +
-                '<input class="form-control" type="text" name="answer_1">' +
-                '</div>' +
-                '<div>' +
-                '<button class="btn btn-sm btn-light ml-3 mb-1" onclick="deleteAnswer(1)"><i class="fa fa-trash"></i></button>' +
-                '<button class="btn btn-sm btn-light ml-3" onclick="displayComment(1)"><i class="fa fa-commenting-o"></i></button>' +
-                '</div>' +
-                '</div>' +
-                '<div id="answer-comment-area-1" class="answer-comment-area mt-2">' +
-                '<div class="answer-comment" id="answer-comment-1"></div>' +
-                '<button class="btn btn-sm btn-light btn-comment-done">Done</button>' +
-                '</div>' +
-                '</div>' +
-                '<hr id="answer-area-hr-1">' +
-                '<div id="answer-area-2" class="answer-area p-3 mb-2">' +
-                '<div class="d-flex">' +
-                '<div>' +
-                '<button id="btn-answer-2" class="btn btn-sm btn-light mr-3 mt-2 btn-answer" onclick="correctAnswer(2)"><i class="fa fa-arrow-right"></i></button>' +
-                '</div>' +
-                '<div class="w-100">' +
-                '<label id="answer-lbl-2" class="form-label text-succes answer-label" for="answer_2">Possible Answer</label>' +
-                '<input class="form-control" type="text" name="answer_2">' +
-                '</div>' +
-                '<div>' +
-                '<button class="btn btn-sm btn-light ml-3 mb-1" onclick="deleteAnswer(2)"><i class="fa fa-trash"></i></button>' +
-                '<button class="btn btn-sm btn-light ml-3" onclick="displayComment(2)"><i class="fa fa-commenting-o"></i></button>' +
-                '</div>' +
-                '</div>' +
-                '<div id="answer-comment-area-2" class="answer-comment-area mt-2">' +
-                '<div class="answer-comment" id="answer-comment-2"></div>' +
-                '<button class="btn btn-sm btn-light btn-comment-done">Done</button>' +
-                '</div>' +
-                '</div>' +
-                '<hr id="answer-area-hr-2">' +
-                '<div id="answer-area-3" class="answer-area p-3 mb-2">' +
-                '<div class="d-flex">' +
-                '<div>' +
-                '<button id="btn-answer-3" class="btn btn-sm btn-light mr-3 mt-2 btn-answer" onclick="correctAnswer(3)"><i class="fa fa-arrow-right"></i></button>' +
-                '</div>' +
-                '<div class="w-100">' +
-                '<label id="answer-lbl-3" class="form-label text-success answer-label" for="answer_3">Possible Answer</label>' +
-                '<input class="form-control" type="text" name="answer_3">' +
-                '</div>' +
-                '<div>' +
-                '<button class="btn btn-sm btn-light ml-3 mb-1" onclick="deleteAnswer(3)"><i class="fa fa-trash"></i></button>' +
-                '<button class="btn btn-sm btn-light ml-3" onclick="displayComment(3)"><i class="fa fa-commenting-o"></i></button>' +
-                '</div>' +
-                '</div>' +
-                '<div id="answer-comment-area-3" class="answer-comment-area mt-2">' +
-                '<div class="answer-comment" id="answer-comment-3"></div>' +
-                '<button class="btn btn-sm btn-light btn-comment-done">Done</button>' +
-                '</div>' +
-                '</div>' +
-                '<hr id="answer-area-hr-3">' +
-                '<div id="answer-area-4" class="answer-area p-3 mb-2">' +
-                '<div class="d-flex">' +
-                '<div>' +
-                '<button id="btn-answer-4" class="btn btn-sm btn-light mr-3 mt-2 btn-answer" onclick="correctAnswer(4)"><i class="fa fa-arrow-right"></i></button>' +
-                '</div>' +
-                '<div class="w-100">' +
-                '<label id="answer-lbl-4" class="form-label text-success answer-label" for="answer_4">Possible Answer</label>' +
-                '<input class="form-control" type="text" name="answer_4">' +
-                '</div>' +
-                '<div>' +
-                '<button class="btn btn-sm btn-light ml-3 mb-1" onclick="deleteAnswer(4)"><i class="fa fa-trash"></i></button>' +
-                '<button class="btn btn-sm btn-light ml-3" onclick="displayComment(4)"><i class="fa fa-commenting-o"></i></button>' +
-                '</div>' +
-                '</div>' +
-                '<div id="answer-comment-area-4" class="answer-comment-area mt-2">' +
-                '<div class="answer-comment" id="answer-comment-4"></div>' +
-                '<button class="btn btn-sm btn-light btn-comment-done">Done</button>' +
-                '</div>' +
-                '</div>' +
-                '</div>' +
-                '<button class="btn btn-sm btn-light mt-1"><i class="fa fa-plus"></i> Add another answer</button >' +
-                '</div>' +
-                '<div class="card-footer p-2">' +
-                '<div class="d-flex">' +
-                '<button class="btn btn-sm btn-light mr-1">Cancel</button>' +
-                '<button class="btn btn-sm btn-primary">Update question</button>' +
-                '</div>' +
-                '</div>' +
-                '</div>' +
-                '');
+        var answerRow = 5;
 
-            ini();
+        function newQuestion() {
+            $.get(
+                BASE_URL + "/models/elements/element_course?func=question",
+                function(data, status) {
+                    $('.questions-area').html(data);
+                    ini();
+                    questionType('multipleChoice');
+                }
+            );
         }
 
-        function displayComment(id) {
+        function displayComment(event, id) {
+            event.preventDefault();
             let comment = $('#answer-comment-area-' + id + ' .note-editor:visible');
             if (comment.length > 0) {
                 $('#answer-comment-area-' + id + ' .note-editor').hide();
@@ -431,20 +289,75 @@ if (isset($_GET['page'])) {
             }
         }
 
-        function correctAnswer(id) {
+        function correctAnswer(event, id, type) {
+            event.preventDefault();
             $('.btn-answer').removeClass('btn-success');
             $('.btn-answer').addClass('btn-light');
             $('.answer-label').text('Possible answer');
+            type == 0 ? $('.answer-label').text('Possible answer') : $('.answer-label').text('False');
             $('.answer-label').removeClass('text-success');
             $('#btn-answer-' + id).removeClass('btn-light');
             $('#btn-answer-' + id).addClass('btn-success');
             $('#answer-lbl-' + id).addClass('text-success');
-            $('#answer-lbl-' + id).text('Correct answer');
+            type == 0 ? $('#answer-lbl-' + id).text('Correct answer') : $('#answer-lbl-' + id).text('True');
         }
 
-        function deleteAnswer(id) {
+        function deleteAnswer(event, id) {
+            event.preventDefault();
             $('#answer-area-' + id).remove();
             $('#answer-area-hr-' + id).remove();
+        }
+
+        function questionType(type) {
+            $.get(
+                BASE_URL + "/models/elements/element_course?func=" + type,
+                function(data, status) {
+                    $('.answer-div').html(data);
+                }
+            );
+        }
+
+        function addAnswer(event) {
+            event.preventDefault();
+            let hr = '<hr id="answer-area-hr-' + answerRow + '">';
+            let answer = '<div id="answer-area-' + answerRow + '" class="answer-area p-3 mb-2">' +
+                '<div class="d-flex">' +
+                '<div>' +
+                '<button id="btn-answer-' + answerRow + '" class="btn btn-sm btn-light mr-3 mt-2 btn-answer" onclick="correctAnswer(' + answerRow + ', 0)"><i class="fa fa-arrow-right"></i></button>' +
+                '</div>' +
+                '<div class="w-100">' +
+                '<label id="answer-lbl-' + answerRow + '" class="form-label text-succes answer-label" for="answer_' + answerRow + '">Possible Answer</label>' +
+                '<input class="form-control" type="text" name="answer_' + answerRow + '">' +
+                '</div>' +
+                '<div>' +
+                '<button class="btn-delete-answer btn btn-sm btn-light ml-3 mb-1" onclick="deleteAnswer(' + answerRow + ')"><i class="fa fa-trash"></i></button>' +
+                '<button class="btn btn-sm btn-light ml-3" onclick="displayComment(' + answerRow + ')"><i class="fa fa-commenting-o"></i></button>' +
+                '</div>' +
+                '</div>' +
+                '<div id="answer-comment-area-' + answerRow + '" class="answer-comment-area mt-2">' +
+                '<div class="answer-comment" id="answer-comment-' + answerRow + '"></div>' +
+                '<button class="btn btn-sm btn-light btn-comment-done">Done</button>' +
+                '</div>' +
+                '</div>';
+            $('.answer-div').append(hr);
+            $('.answer-div').append(answer);
+            ini();
+            answerRow++;
+        }
+
+        function saveQuiz(type) {
+            let quiz_instruction = $('#quiz-instruction').summernote('code');
+            let quiz_form = $('#quiz-form').serialize() + '&quiz_instruction=' + quiz_instruction;
+
+            let answer_comment_length = $('.answer-comment').length;
+            let latest_comment = $('.answer-comment')[answer_comment_length - 1].id;
+            let latest_comment_length = parseInt(latest_comment[latest_comment.length - 1]);
+            for (let i = 1; i <= latest_comment_length; i++) {
+                $('#answer-comment-' + i).summernote('code');
+            }
+            let question_form = $('#question-form').serialize();
+            console.log(quiz_form);
+            console.log(question_form);
         }
     </script>
 </body>

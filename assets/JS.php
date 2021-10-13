@@ -25,7 +25,7 @@
 <!-- Plugins JS Ends-->
 <!-- Theme js-->
 <script src="<?php echo BASE_URL ?>/assets/cuba/assets/js/script.js"></script>
-<script src="<?php echo BASE_URL ?>/assets/cuba/assets/js/theme-customizer/customizer.js"></script>
+<!-- <script src="<?php echo BASE_URL ?>/assets/cuba/assets/js/theme-customizer/customizer.js"></script> -->
 <!-- login js-->
 <!-- Plugin used-->
 <script src="<?php echo BASE_URL ?>/assets/custom/js/main.js"></script>
