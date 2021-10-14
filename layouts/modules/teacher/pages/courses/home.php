@@ -212,6 +212,16 @@ if (isset($_GET['page'])) {
     <script src="<?php echo BASE_URL ?>/assets/cuba/assets/js/dropzone/dropzone.js"></script>
     <script src="<?php echo BASE_URL ?>/assets/cuba/assets/js/dropzone/dropzone-script.js"></script>
     <script src="<?php echo BASE_URL ?>/assets/custom/js/modules/teacher/courses.js"></script>
+    <script>
+        $(".dropzone").dropzone({
+            success: function(file, response) {
+                myToast("success", "File uploaded successfully!", "top-end", 2000);
+                setTimeout(() => {
+                    location.reload();
+                }, 2000);
+            },
+        });
+    </script>
 </body>
 
 </html>

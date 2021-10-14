@@ -278,15 +278,6 @@ $(".file-status").click(function (e) {
   });
 });
 
-$(".dropzone").dropzone({
-  success: function (file, response) {
-    myToast("success", "File uploaded successfully!", "top-end", 2000);
-    setTimeout(() => {
-      location.reload();
-    }, 2000);
-  },
-});
-
 //QUIZZES
 
 function createQuiz() {

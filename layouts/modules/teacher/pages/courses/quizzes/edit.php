@@ -33,6 +33,7 @@ if (isset($_GET['page'])) {
     <input type="hidden" id="base_url" value="<?php echo BASE_URL ?>">
     <input type="hidden" id="course-id" value="<?php echo $course['id'] ?>">
     <input type="hidden" id="course-status" value="<?php echo $course['status'] ?>">
+    <input type="hidden" id="quiz-id" value="<?php echo $_GET['quiz_id'] ?>">
 </head>
 
 <body>
@@ -111,8 +112,8 @@ if (isset($_GET['page'])) {
                                                 <hr>
                                                 <div class="card-body">
                                                     <ul class="nav nav-tabs border-tab nav-primary" id="info-tab" role="tablist">
-                                                        <li class="nav-item"><a class="nav-link active" id="info-home-tab" data-bs-toggle="tab" href="#info-home" role="tab" aria-controls="info-home" aria-selected="true"><i class="icofont icofont-info-circle"></i>Details</a></li>
-                                                        <li class="nav-item"><a class="nav-link" id="profile-info-tab" data-bs-toggle="tab" href="#info-profile" role="tab" aria-controls="info-profile" aria-selected="false"><i class="icofont icofont-question-circle"></i>Questions</a></li>
+                                                        <li class="nav-item"><a class="nav-link active" id="info-home-tab" data-toggle="tab" href="#info-home" role="tab" aria-controls="info-home" aria-selected="true"><i class="icofont icofont-info-circle"></i>Details</a></li>
+                                                        <li class="nav-item"><a class="nav-link" id="profile-info-tab" data-toggle="tab" href="#info-profile" role="tab" aria-controls="info-profile" aria-selected="false"><i class="icofont icofont-question-circle"></i>Questions</a></li>
                                                     </ul>
                                                     <div class="tab-content" id="info-tabContent">
                                                         <div class="tab-pane fade active show" id="info-home" role="tabpanel" aria-labelledby="info-home-tab">
@@ -130,8 +131,8 @@ if (isset($_GET['page'])) {
 
                                                                 <div class="d-flex">
                                                                     <div class="form-check checkbox mb-0">
-                                                                        <input class="form-check-input" id="is_time_Limit" type="checkbox">
-                                                                        <label class="form-check-label" for="is_time_Limit" name="is_time_limit">Time limit</label>
+                                                                        <input class="form-check-input" id="is_time_Limit" type="checkbox" name="is_time_limit">
+                                                                        <label class="form-check-label" for="is_time_Limit">Time limit</label>
                                                                     </div>
                                                                     <div class="d-flex ml-4">
                                                                         <input class="form-control w-25" id="time_limit" name="time_limit" type="number" disabled>
@@ -292,12 +293,14 @@ if (isset($_GET['page'])) {
         function correctAnswer(event, id, type) {
             event.preventDefault();
             $('.btn-answer').removeClass('btn-success');
+            $('.btn-answer').removeClass('btn-correct');
             $('.btn-answer').addClass('btn-light');
             $('.answer-label').text('Possible answer');
             type == 0 ? $('.answer-label').text('Possible answer') : $('.answer-label').text('False');
             $('.answer-label').removeClass('text-success');
             $('#btn-answer-' + id).removeClass('btn-light');
             $('#btn-answer-' + id).addClass('btn-success');
+            $('#btn-answer-' + id).addClass('btn-correct');
             $('#answer-lbl-' + id).addClass('text-success');
             type == 0 ? $('#answer-lbl-' + id).text('Correct answer') : $('#answer-lbl-' + id).text('True');
         }
@@ -323,15 +326,15 @@ if (isset($_GET['page'])) {
             let answer = '<div id="answer-area-' + answerRow + '" class="answer-area p-3 mb-2">' +
                 '<div class="d-flex">' +
                 '<div>' +
-                '<button id="btn-answer-' + answerRow + '" class="btn btn-sm btn-light mr-3 mt-2 btn-answer" onclick="correctAnswer(' + answerRow + ', 0)"><i class="fa fa-arrow-right"></i></button>' +
+                '<button id="btn-answer-' + answerRow + '" data-id="answer_' + answerRow + '" class="btn btn-sm btn-light mr-3 mt-2 btn-answer" onclick="correctAnswer(event, ' + answerRow + ', 0)"><i class="fa fa-arrow-right"></i></button>' +
                 '</div>' +
                 '<div class="w-100">' +
                 '<label id="answer-lbl-' + answerRow + '" class="form-label text-succes answer-label" for="answer_' + answerRow + '">Possible Answer</label>' +
-                '<input class="form-control" type="text" name="answer_' + answerRow + '">' +
+                '<input class="form-control" type="text" name="answer[]">' +
                 '</div>' +
                 '<div>' +
-                '<button class="btn-delete-answer btn btn-sm btn-light ml-3 mb-1" onclick="deleteAnswer(' + answerRow + ')"><i class="fa fa-trash"></i></button>' +
-                '<button class="btn btn-sm btn-light ml-3" onclick="displayComment(' + answerRow + ')"><i class="fa fa-commenting-o"></i></button>' +
+                '<button class="btn-delete-answer btn btn-sm btn-light ml-3 mb-1" onclick="deleteAnswer(event, ' + answerRow + ')"><i class="fa fa-trash"></i></button>' +
+                '<button class="btn btn-sm btn-light ml-3" onclick="displayComment(event,' + answerRow + ')"><i class="fa fa-commenting-o"></i></button>' +
                 '</div>' +
                 '</div>' +
                 '<div id="answer-comment-area-' + answerRow + '" class="answer-comment-area mt-2">' +
@@ -341,23 +344,54 @@ if (isset($_GET['page'])) {
                 '</div>';
             $('.answer-div').append(hr);
             $('.answer-div').append(answer);
-            ini();
+
+
+            $("#answer-comment-area-" + answerRow + " .answer-comment").summernote({
+                placeholder: "Type here ...",
+                tabsize: 2,
+                height: 100,
+            });
+
+            $("#answer-comment-area-" + answerRow + ".answer-comment-area .note-editor").hide();
+            $("#answer-comment-area-" + answerRow + " .btn-comment-done").hide();
+
+
             answerRow++;
         }
 
         function saveQuiz(type) {
-            let quiz_instruction = $('#quiz-instruction').summernote('code');
-            let quiz_form = $('#quiz-form').serialize() + '&quiz_instruction=' + quiz_instruction;
+            submitQuiz(type);
+            submitQuestion();
+        }
 
+        function submitQuiz(type) {
+            let quiz_instruction = $('#quiz-instruction').summernote('code');
+            let quiz_id = $('#quiz-id').val();
+            let course_id = $('#course-id').val();
+            let quiz_form = $('#quiz-form').serialize() + '&quiz_instruction=' + quiz_instruction + '&quiz_id=' + quiz_id + '&course_id=' + course_id + '&status=' + type;
+
+            $.post(BASE_URL + '/models/modules/teacher/model_quizzes?func=saveQuiz', quiz_form, res => {
+
+            });
+        }
+
+        function submitQuestion() {
+            let question = $('#quiz-question').summernote('code');
+            let quiz_id = $('#quiz-id').val();
+            let correct_answer = null;
+            let answer_comment = '';
             let answer_comment_length = $('.answer-comment').length;
-            let latest_comment = $('.answer-comment')[answer_comment_length - 1].id;
-            let latest_comment_length = parseInt(latest_comment[latest_comment.length - 1]);
-            for (let i = 1; i <= latest_comment_length; i++) {
-                $('#answer-comment-' + i).summernote('code');
+            for (let i = 0; i < answer_comment_length; i++) {
+                let cr_class = $('.btn-answer').eq(i).attr('class');
+                if (cr_class.search('btn-correct') > -1) correct_answer = i;
+                answer_comment += '&comment[]=' + $('.answer-comment').eq(i).summernote('code');
             }
-            let question_form = $('#question-form').serialize();
-            console.log(quiz_form);
-            console.log(question_form);
+
+            let question_form = $('#question-form').serialize() + '&questions=' + question + answer_comment + '&answer_length=' + answer_comment_length + '&correct_answer=' + correct_answer + '&quiz_id=' + quiz_id;
+
+            $.post(BASE_URL + '/models/modules/teacher/model_quizzes?func=saveQuestion', question_form, res => {
+
+            });
         }
     </script>
 </body>

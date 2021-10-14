@@ -68,11 +68,11 @@ class Form
         $html = '<div id="answer-area-1" class="answer-area p-3 mb-2">' .
             '<div class="d-flex">' .
             '<div>' .
-            '<button id="btn-answer-1" class="btn btn-sm btn-success mr-3 mt-2 btn-answer" onclick="correctAnswer(event, 1, 0)"><i class="fa fa-arrow-right"></i></button >' .
+            '<button id="btn-answer-1" data-id="answer_1" class="btn btn-sm btn-success btn-correct mr-3 mt-2 btn-answer" onclick="correctAnswer(event, 1, 0)"><i class="fa fa-arrow-right"></i></button >' .
             '</div>' .
             '<div class="w-100">' .
             '<label id="answer-lbl-1" class="form-label text-success answer-label" for="answer_1">Correct Answer</label>' .
-            '<input class="form-control" type="text" name="answer_1">' .
+            '<input class="form-control" type="text" name="answer[]">' .
             '</div>' .
             '<div>' .
             '<button class="btn-delete-answer btn btn-sm btn-light ml-3 mb-1" onclick="deleteAnswer(event, 1)"><i class="fa fa-trash"></i></button>' .
@@ -88,11 +88,11 @@ class Form
             '<div id="answer-area-2" class="answer-area p-3 mb-2">' .
             '<div class="d-flex">' .
             '<div>' .
-            '<button id="btn-answer-2" class="btn btn-sm btn-light mr-3 mt-2 btn-answer" onclick="correctAnswer(event, 2, 0)"><i class="fa fa-arrow-right"></i></button>' .
+            '<button id="btn-answer-2" data-id="answer_2" class="btn btn-sm btn-light mr-3 mt-2 btn-answer" onclick="correctAnswer(event, 2, 0)"><i class="fa fa-arrow-right"></i></button>' .
             '</div>' .
             '<div class="w-100">' .
             '<label id="answer-lbl-2" class="form-label text-succes answer-label" for="answer_2">Possible Answer</label>' .
-            '<input class="form-control" type="text" name="answer_2">' .
+            '<input class="form-control" type="text" name="answer[]">' .
             '</div>' .
             '<div>' .
             '<button class="btn-delete-answer btn btn-sm btn-light ml-3 mb-1" onclick="deleteAnswer(event, 2)"><i class="fa fa-trash"></i></button>' .
@@ -108,11 +108,11 @@ class Form
             '<div id="answer-area-3" class="answer-area p-3 mb-2">' .
             '<div class="d-flex">' .
             '<div>' .
-            '<button id="btn-answer-3" class="btn btn-sm btn-light mr-3 mt-2 btn-answer" onclick="correctAnswer(event, 3, 0)"><i class="fa fa-arrow-right"></i></button>' .
+            '<button id="btn-answer-3" data-id="answer_3" class="btn btn-sm btn-light mr-3 mt-2 btn-answer" onclick="correctAnswer(event, 3, 0)"><i class="fa fa-arrow-right"></i></button>' .
             '</div>' .
             '<div class="w-100">' .
             '<label id="answer-lbl-3" class="form-label answer-label" for="answer_3">Possible Answer</label>' .
-            '<input class="form-control" type="text" name="answer_3">' .
+            '<input class="form-control" type="text" name="answer[]">' .
             '</div>' .
             '<div>' .
             '<button class="btn-delete-answer btn btn-sm btn-light ml-3 mb-1" onclick="deleteAnswer(event, 3)"><i class="fa fa-trash"></i></button>' .
@@ -128,11 +128,11 @@ class Form
             '<div id="answer-area-4" class="answer-area p-3 mb-2">' .
             '<div class="d-flex">' .
             '<div>' .
-            '<button id="btn-answer-4" class="btn btn-sm btn-light mr-3 mt-2 btn-answer" onclick="correctAnswer(event, 4, 0)"><i class="fa fa-arrow-right"></i></button>' .
+            '<button id="btn-answer-4" data-id="answer_4" class="btn btn-sm btn-light mr-3 mt-2 btn-answer" onclick="correctAnswer(event, 4, 0)"><i class="fa fa-arrow-right"></i></button>' .
             '</div>' .
             '<div class="w-100">' .
             '<label id="answer-lbl-4" class="form-label answer-label" for="answer_4">Possible Answer</label>' .
-            '<input class="form-control" type="text" name="answer_4">' .
+            '<input class="form-control" type="text" name="answer[]">' .
             '</div>' .
             '<div>' .
             '<button class="btn-delete-answer btn btn-sm btn-light ml-3 mb-1" onclick="deleteAnswer(event, 4)"><i class="fa fa-trash"></i></button>' .
@@ -154,11 +154,11 @@ class Form
         $html = '<div id="answer-area-1" class="answer-area p-3 mb-2">' .
             '<div class="d-flex">' .
             '<div>' .
-            '<button id="btn-answer-1" class="btn btn-sm btn-success mr-3 mt-2 btn-answer" onclick="correctAnswer(event, 1, 1)"><i class="fa fa-arrow-right"></i></button >' .
+            '<button id="btn-answer-1" data-id="answer_1" class="btn btn-sm btn-success btn-correct mr-3 mt-2 btn-answer" onclick="correctAnswer(event, 1, 1)"><i class="fa fa-arrow-right"></i></button >' .
             '</div>' .
             '<div class="w-100">' .
             '<label id="answer-lbl-1" class="form-label text-success answer-label" for="answer_1">True</label>' .
-            '<input class="form-control" type="text" name="answer_1">' .
+            '<input class="form-control" type="text" name="answer[]">' .
             '</div>' .
             '<div>' .
             '<button class="btn btn-sm btn-light ml-3" onclick="displayComment(event, 1)"><i class="fa fa-commenting-o"></i></button>' .
@@ -173,11 +173,11 @@ class Form
             '<div id="answer-area-2" class="answer-area p-3 mb-2">' .
             '<div class="d-flex">' .
             '<div>' .
-            '<button id="btn-answer-2" class="btn btn-sm btn-light mr-3 mt-2 btn-answer" onclick="correctAnswer(event, 2, 1)"><i class="fa fa-arrow-right"></i></button>' .
+            '<button id="btn-answer-2" data-id="answer_2" class="btn btn-sm btn-light mr-3 mt-2 btn-answer" onclick="correctAnswer(event, 2, 1)"><i class="fa fa-arrow-right"></i></button>' .
             '</div>' .
             '<div class="w-100">' .
             '<label id="answer-lbl-2" class="form-label text-succes answer-label" for="answer_2">False</label>' .
-            '<input class="form-control" type="text" name="answer_2">' .
+            '<input class="form-control" type="text" name="answer[]">' .
             '</div>' .
             '<div>' .
             '<button class="btn btn-sm btn-light ml-3" onclick="displayComment(event, 2)"><i class="fa fa-commenting-o"></i></button>' .
