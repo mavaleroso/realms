@@ -85,6 +85,7 @@ class Quizzes
             $question_type = 0;
         }
 
+        // $conn->query("DELETE tbl_quizzes_questions WHERE id='$quest_id'");
         $quest = $conn->query("INSERT tbl_quizzes_questions (quiz_id, name, type, question, points, created_at) VALUES ('$id', '$question_name', '$question_type', '$questions', '$question_points',NOW())");
 
         $quest_id = mysqli_insert_id($conn);
@@ -95,8 +96,8 @@ class Quizzes
             $answer_length = isset($_POST['answer_length']) ? $_POST['answer_length'] : NULL;
             $correct_answer = isset($_POST['correct_answer']) ? $_POST['correct_answer'] : NULL;
             $correct = (int) substr($correct_answer, -1);
-            // $ans = $conn->query("DELETE tbl_quizzes_question_answer WHERE question_id=;");
-            for ($i = 0; $i < count($answer); $i++) {
+            $conn->query("DELETE tbl_quizzes_question_answer WHERE quiz_id='$quest_id'");
+            for ($i = 0; $i < $answer_length; $i++) {
                 $c_answe = $correct == $i ? 1 : 0;
                 $conn->query("INSERT tbl_quizzes_question_answer (question_id, type, answer, comment, is_correct, created_at) VALUES ('$quest_id', '$question_type', '$answer[$i]', '$comment[$i]', '$c_answe', NOW())");
             }

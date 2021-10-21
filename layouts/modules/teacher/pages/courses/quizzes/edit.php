@@ -381,10 +381,12 @@ if (isset($_GET['page'])) {
             let correct_answer = null;
             let answer_comment = '';
             let answer_comment_length = $('.answer-comment').length;
-            for (let i = 0; i < answer_comment_length; i++) {
-                let cr_class = $('.btn-answer').eq(i).attr('class');
-                if (cr_class.search('btn-correct') > -1) correct_answer = i;
-                answer_comment += '&comment[]=' + $('.answer-comment').eq(i).summernote('code');
+            if (answer_comment_length > 1) {
+                for (let i = 0; i < answer_comment_length; i++) {
+                    let cr_class = $('.btn-answer').eq(i).attr('class');
+                    if (cr_class.search('btn-correct') > -1) correct_answer = i;
+                    answer_comment += '&comment[]=' + $('.answer-comment').eq(i).summernote('code');
+                }
             }
 
             let question_form = $('#question-form').serialize() + '&questions=' + question + answer_comment + '&answer_length=' + answer_comment_length + '&correct_answer=' + correct_answer + '&quiz_id=' + quiz_id;
