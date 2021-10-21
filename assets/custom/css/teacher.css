@@ -79,3 +79,7 @@
   border: 1px solid #ccc;
   border-radius: 3px;
 }
+
+#dashboard svg {
+  left: 10px;
+}

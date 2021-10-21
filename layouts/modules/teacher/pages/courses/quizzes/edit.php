@@ -11,6 +11,13 @@ if (isset($_GET['page'])) {
     $result = mysqli_query($conn, $query) or die(mysqli_error($conn));
     $course = mysqli_fetch_array($result);
 }
+
+if (isset($_GET['quiz_id'])) {
+    $quiz_id = $_GET['quiz_id'];
+    $q_query = "SELECT * FROM tbl_quizzes WHERE id='$quiz_id' LIMIT 1";
+    $q_result = mysqli_query($conn, $q_query) or die(mysqli_error($conn));
+    $quiz = mysqli_fetch_array($q_result);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -34,6 +41,8 @@ if (isset($_GET['page'])) {
     <input type="hidden" id="course-id" value="<?php echo $course['id'] ?>">
     <input type="hidden" id="course-status" value="<?php echo $course['status'] ?>">
     <input type="hidden" id="quiz-id" value="<?php echo $_GET['quiz_id'] ?>">
+    <input type="hidden" id="quiz-time-limit" value="<?php echo $quiz['time_limit'] ?>">
+    <input type="hidden" id="quiz-allow-multiple" value="<?php echo $quiz['multiple_attempts'] ?>">
 </head>
 
 <body>
@@ -121,21 +130,21 @@ if (isset($_GET['page'])) {
 
                                                                 <div class="mb-3 w-50">
                                                                     <label class="form-label font-weight-bold" for="quiz-name">Name:</label>
-                                                                    <input class="form-control" id="quiz-name" name="quiz_name" type="text" required>
+                                                                    <input class="form-control" id="quiz-name" name="quiz_name" type="text" value="<?php echo $quiz['name'] ?>" required>
                                                                 </div>
 
                                                                 <label class="form-label font-weight-bold">Quiz Instructions:</label>
-                                                                <div id="quiz-instruction"></div>
+                                                                <div id="quiz-instruction"><?php echo $quiz['instructions'] ?></div>
 
                                                                 <label class="form-label font-weight-bold">Options:</label>
 
                                                                 <div class="d-flex">
                                                                     <div class="form-check checkbox mb-0">
-                                                                        <input class="form-check-input" id="is_time_Limit" type="checkbox" name="is_time_limit">
-                                                                        <label class="form-check-label" for="is_time_Limit">Time limit</label>
+                                                                        <input class="form-check-input" id="is_time_limit" type="checkbox" name="is_time_limit">
+                                                                        <label class="form-check-label" for="is_time_limit">Time limit</label>
                                                                     </div>
                                                                     <div class="d-flex ml-4">
-                                                                        <input class="form-control w-25" id="time_limit" name="time_limit" type="number" disabled>
+                                                                        <input class="form-control w-25" id="time_limit" name="time_limit" type="number" value="<?php echo $quiz['time_limit'] ?>" disabled>
                                                                         <label class="form-label p-2" for="time_limit">Minutes</label>
                                                                     </div>
                                                                 </div>
@@ -149,29 +158,60 @@ if (isset($_GET['page'])) {
                                                                 <div class="mb-3 w-50">
                                                                     <label class="form-label" for="assign_to">Assign to:</label>
                                                                     <select name="assign_to" id="assign-to" multiple>
-                                                                        <option value="0">Test</option>
-                                                                        <option value="1">Test1</option>
-                                                                        <option value="2">Test2</option>
-                                                                        <option value="3">Test3</option>
+                                                                        <option value="0">Everyone</option>
+                                                                        <?php
+                                                                        $opt_quizzes_query = "SELECT * FROM tbl_quizzes";
+                                                                        $opt_quizzes_result = mysqli_query($conn, $opt_quizzes_query) or die(mysqli_error($conn));
+                                                                        $i = 0;
+                                                                        if ($opt_quizzes_result->num_rows) {
+                                                                            while ($row = mysqli_fetch_array($opt_quizzes_result)) {
+                                                                                echo '<option value="' . $row['id'] . '">' . $row['name'] . '</option>';
+                                                                            }
+                                                                        }
+                                                                        ?>
                                                                     </select>
                                                                 </div>
                                                                 <div class="mb-3 w-50">
                                                                     <label class="form-label" for="assign-due">Due:</label>
-                                                                    <input class="form-control w-100" id="assign-due" name="assign_due" type="date">
+                                                                    <input class="form-control w-100" id="assign-due" name="assign_due" type="date" value="<?php echo $quiz['due'] ?>">
                                                                 </div>
                                                                 <div class="mb-3 w-50">
                                                                     <label class="form-label" for="available-from">Available from:</label>
-                                                                    <input class="form-control" id="available-from" name="available_from" type="date">
+                                                                    <input class="form-control" id="available-from" name="available_from" type="date" value="<?php echo $quiz['available_from'] ?>">
                                                                 </div>
                                                                 <div class="mb-3 w-50">
                                                                     <label class="form-label" for="available-to">Available to:</label>
-                                                                    <input class="form-control" id="available-to" name="available_to" type="date">
+                                                                    <input class="form-control" id="available-to" name="available_to" type="date" value="<?php echo $quiz['available_until'] ?>">
                                                                 </div>
 
                                                             </form>
                                                         </div>
                                                         <div class="tab-pane fade" id="info-profile" role="tabpanel" aria-labelledby="profile-info-tab">
-                                                            <button class="btn btn-light" onclick="newQuestion()"><i class="fa fa-plus"></i> New Question</button>
+                                                            <button class="btn btn-light my-3" onclick="newQuestion()"><i class="fa fa-plus"></i> New Question</button>
+                                                            <?php
+                                                            $qq_query = "SELECT * FROM tbl_quizzes_questions WHERE quiz_id=" . $quiz_id;
+                                                            $qq_result = mysqli_query($conn, $qq_query) or die(mysqli_error($conn));
+                                                            $i = 0;
+                                                            if ($qq_result->num_rows) {
+                                                                while ($row = mysqli_fetch_array($qq_result)) {
+                                                                    echo '<div class="d-flex quiz-div mb-2">' .
+                                                                        '<i class="fa fa-wpforms"></i>' .
+                                                                        '<a href="' . BASE_URL . '/modules/teacher/courses/quizzes/overview.php?page=' . $course['code'] . '&quiz_id=' . $row['id'] . '">' . ($row['name'] ? $row['name'] : 'Unnamed') . '</a>' .
+                                                                        '<button class="btn-none ml-auto"><i class="fa fa-edit"></i></button>' .
+                                                                        '<button class="btn-none"><i class="fa fa-trash"></i></button>' .
+                                                                        '</div>';
+                                                                }
+                                                            } else {
+                                                                echo '<div class="alert alert-light dark alert-dismissible fade show" role="alert"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-triangle">' .
+                                                                    '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>' .
+                                                                    '<line x1="12" y1="9" x2="12" y2="13"></line>' .
+                                                                    '<line x1="12" y1="17" x2="12" y2="17"></line>' .
+                                                                    '</svg>' .
+                                                                    '<p> No questions created.</p>' .
+                                                                    '<button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>' .
+                                                                    '</div>';
+                                                            }
+                                                            ?>
                                                             <form id="question-form" method="POST">
                                                                 <div class="questions-area">
                                                                 </div>
@@ -205,8 +245,14 @@ if (isset($_GET['page'])) {
     <script src="<?php echo BASE_URL ?>/assets/custom/js/modules/teacher/courses.js"></script>
     <script>
         $(document).ready(() => {
-            window.ini = function() {
+            let quizQuestions = $('#quiz-questions').val();
+            let timeLimit = $('#quiz-time-limit').val();
+            let multipleAttempts = $('#quiz-allow-mutltiple').val();
 
+            timeLimit != '' ? $('#is_time_limit').attr('checked', true) : $('#is_time_limit').attr('checked', false);
+            multipleAttempts != '' ? $('#multiple_attempts').attr('checked', true) : $('#multiple_attempts').attr('checked', false);
+
+            window.ini = function() {
                 setTimeout(() => {
                     $("#quiz-instruction").summernote({
                         placeholder: "Type here ...",
@@ -360,8 +406,35 @@ if (isset($_GET['page'])) {
         }
 
         function saveQuiz(type) {
-            submitQuiz(type);
-            submitQuestion();
+            Swal.fire({
+                title: "Are you sure you?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                customClass: {
+                    confirmButton: "btn btn-success btn-sm",
+                    cancelButton: "btn btn-danger btn-sm",
+                },
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Save",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    submitQuiz(type);
+                    submitQuestion();
+                    myToast(
+                        "success",
+                        "Quiz saved successfully!",
+                        "top-end",
+                        2000
+                    );
+
+                    setTimeout(() => {
+                        location.reload();
+                    }, 2000);
+                }
+            });
+
         }
 
         function submitQuiz(type) {
