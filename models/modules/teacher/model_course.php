@@ -35,7 +35,7 @@ class Course
             $img = $_FILES['image']['name'];
             $tmp = $_FILES['image']['tmp_name'];
             $ext = strtolower(pathinfo($img, PATHINFO_EXTENSION));
-            $final_image = rand(1000, 1000000) . $img;
+            $final_image = rand(1000, 1000000);
             if (in_array($ext, $valid_extensions)) {
                 $path = $path . strtolower($final_image);
                 $cName = $_POST['courseName'];

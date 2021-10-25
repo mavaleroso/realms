@@ -28,6 +28,7 @@ if (isset($_GET['page'])) {
     <input type="hidden" id="base_url" value="<?php echo BASE_URL ?>">
     <input type="hidden" id="course-id" value="<?php echo $course['id'] ?>">
     <input type="hidden" id="course-status" value="<?php echo $course['status'] ?>">
+    <input type="hidden" id="page-code" value="<?php echo $_GET['page'] ?>">
 </head>
 
 <body>
@@ -115,7 +116,7 @@ if (isset($_GET['page'])) {
 
                                                     <div class="mb-3">
                                                         <label class="form-label font-weight-bold" for="post_to">Post to:</label>
-                                                        <select name="post_to" id="post-to" multiple>
+                                                        <select name="post_to[]" id="post-to" multiple>
                                                             <option value="0">Everyone</option>
                                                             <?php
                                                             $opt_quizzes_query = "SELECT * FROM tbl_courses";
@@ -127,6 +128,7 @@ if (isset($_GET['page'])) {
                                                                 }
                                                             }
                                                             ?>
+
                                                         </select>
                                                     </div>
 
@@ -137,23 +139,23 @@ if (isset($_GET['page'])) {
                                                     <hr>
                                                     <div class="mb-3">
                                                         <label class="form-label font-weight-bold">Options:</label>
-                                                        <div class="form-check checkbox mb-0">
+                                                        <div class="form-check">
                                                             <input class="form-check-input" id="delay-posting" type="checkbox" name="is_delay">
                                                             <label class="form-check-label" for="is_delay">Delay posting.</label>
                                                         </div>
-                                                        <div class="form-check checkbox mb-0">
+                                                        <div class="form-check">
                                                             <input class="form-check-input" id="allow-comment" type="checkbox" name="is_allow">
                                                             <label class="form-check-label" for="is_allow">Allow users to comment.</label>
                                                         </div>
-                                                        <div class="form-check checkbox mb-0 ml-3">
-                                                            <input class="form-check-input" id="before-replies" type="checkbox" name="is_post_before_replies">
+                                                        <div class="form-check ml-3">
+                                                            <input class="form-check-input" id="before-replies" type="checkbox" name="is_post_before_replies" disabled>
                                                             <label class="form-check-label" for="is_post_before_replies">Users must post before seeing replies.</label>
                                                         </div>
-                                                        <div class="form-check checkbox mb-0">
+                                                        <div class="form-check">
                                                             <input class="form-check-input" id="enable-podcast" type="checkbox" name="is_enable_podcast">
                                                             <label class="form-check-label" for="is_enable_podcast">Enable podcast feed.</label>
                                                         </div>
-                                                        <div class="form-check checkbox mb-0">
+                                                        <div class="form-check">
                                                             <input class="form-check-input" id="allow-liking" type="checkbox" name="is_allow_liking">
                                                             <label class="form-check-label" for="is_allow_liking">Allow liking.</label>
                                                         </div>
@@ -194,8 +196,17 @@ if (isset($_GET['page'])) {
 
                 $("#post-to").select2();
 
+                $('#allow-comment').change(function() {
+                    if ($(this).is(':checked')) {
+                        $('#before-replies').removeAttr('disabled');
+                    } else {
+                        $('#before-replies').attr('disabled', true);
+                    }
+                });
+
                 $('#announcement-form').submit(function(evt) {
                     evt.preventDefault();
+                    let page_code = $('#page-code').val();
                     Swal.fire({
                         title: "Are you sure you?",
                         text: "You won't be able to revert this!",
@@ -223,14 +234,19 @@ if (isset($_GET['page'])) {
                                 cache: false,
                                 processData: false,
                                 success: function(data, status) {
-
+                                    myToast(
+                                        "success",
+                                        "Announcement created successfully!",
+                                        "top-end",
+                                        2000
+                                    );
                                 },
                                 error: function(e) {
                                     myToast("error", "Course created unsuccessfully!", "top-end", 2000);
                                 },
                             });
                             setTimeout(() => {
-                                location.reload();
+                                location.href = BASE_URL + '/modules/teacher/courses/announcements/list?page=' + page_code;
                             }, 2000);
                         }
                     });

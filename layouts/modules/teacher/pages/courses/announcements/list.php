@@ -95,7 +95,7 @@ if (isset($_GET['page'])) {
                                 <div class="email-left-aside">
                                     <div class="card">
                                         <div class="card-body">
-                                            <div class="email-app-sidebar left-bookmark">
+                                            <div class="min-height-700">
                                                 <div class="media">
                                                     <div class="media-body d-flex">
                                                         <h6 class="f-w-600">Announcements</h6>
@@ -111,7 +111,7 @@ if (isset($_GET['page'])) {
                                                         echo '<div class="alert alert-light d-flex" role="alert">' .
                                                             '<input class="btn-ann-check" type="checkbox" name="" id="">' .
                                                             '<div>' .
-                                                            '<h4 class="alert-heading">' . $row['title'] . '</h4>' .
+                                                            '<a href="' . BASE_URL . '/modules/teacher/courses/announcements/view?page=' . $_GET['page'] . '&id=' . $row['id'] . '" class="alert-heading h5">' . $row['title'] . '</a>' .
                                                             '<p>' . $row['description'] . '</p>' .
                                                             '<hr>' .
                                                             '<button class="btn btn-primary btn-sm">Reply</button>' .
