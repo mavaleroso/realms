@@ -23,6 +23,7 @@ if (isset($_GET['page'])) {
     <title><?php echo APP_NAME ?> | Courses</title>
     <?php require($_SERVER['DOCUMENT_ROOT'] . '/assets/CSS.php') ?>
     <link rel="stylesheet" type="text/css" href="/assets/custom/css/teacher.css">
+    <link rel="stylesheet" type="text/css" href="/assets/custom/css/announcements.css">
     <input type="hidden" id="base_url" value="<?php echo BASE_URL ?>">
     <input type="hidden" id="course-id" value="<?php echo $course['id'] ?>">
     <input type="hidden" id="course-status" value="<?php echo $course['status'] ?>">
@@ -76,10 +77,10 @@ if (isset($_GET['page'])) {
                                                         </div>
                                                     </li>
                                                     <li class="nav-item courses-link"><a href="<?php echo BASE_URL ?>/modules/teacher/courses/home?page=<?php echo $course['code'] ?>" class="m-1">Home</a></li>
-                                                    <li class="nav-item courses-link"><a href="<?php echo BASE_URL ?>/modules/teacher/courses/announcements/list?page=<?php echo $course['code'] ?>" class="m-1">Announcements</a></li>
+                                                    <li class="nav-item courses-link active"><a href="<?php echo BASE_URL ?>/modules/teacher/courses/announcements/list?page=<?php echo $course['code'] ?>" class="m-1">Announcements</a></li>
                                                     <li class="nav-item courses-link"><a href="<?php echo BASE_URL ?>/modules/teacher/courses/grades?page=<?php echo $course['code'] ?>" class="m-1">Grades</a></li>
                                                     <li class="nav-item courses-link"><a href="<?php echo BASE_URL ?>/modules/teacher/courses/people?page=<?php echo $course['code'] ?>" class="m-1">People</a></li>
-                                                    <li class="nav-item courses-link active"><a href="<?php echo BASE_URL ?>/modules/teacher/courses/files?page=<?php echo $course['code'] ?>" class="m-1">Files</a></li>
+                                                    <li class="nav-item courses-link"><a href="<?php echo BASE_URL ?>/modules/teacher/courses/files?page=<?php echo $course['code'] ?>" class="m-1">Files</a></li>
                                                     <li class="nav-item courses-link"><a href="<?php echo BASE_URL ?>/modules/teacher/courses/syllabus?page=<?php echo $course['code'] ?>" class="m-1">Syllabus</a></li>
                                                     <li class="nav-item courses-link"><a href="<?php echo BASE_URL ?>/modules/teacher/courses/quizzes/list?page=<?php echo $course['code'] ?>" class="m-1">Quizzes</a></li>
                                                     <li class="nav-item courses-link"><a href="<?php echo BASE_URL ?>/modules/teacher/courses/modules?page=<?php echo $course['code'] ?>" class="m-1">Modules</a></li>
@@ -94,13 +95,43 @@ if (isset($_GET['page'])) {
                                 <div class="email-left-aside">
                                     <div class="card">
                                         <div class="card-body">
-                                            <div class="min-height-700">
-                                                <div class=" media">
-                                                    <div class="media-body">
-                                                        <h6 class="f-w-600">Files <?php echo $_GET['file'] ? '>' . $_GET['file'] : '' ?></h6>
+                                            <div class="email-app-sidebar left-bookmark">
+                                                <div class="media">
+                                                    <div class="media-body d-flex">
+                                                        <h6 class="f-w-600">Announcements</h6>
+                                                        <a href="<?php echo BASE_URL ?>/modules/teacher/courses/announcements/create?page=<?php echo $course['code'] ?>" class="btn btn-primary ml-auto"><i class="fa fa-plus mr-1"></i>Add Announcement</a>
                                                     </div>
                                                 </div>
-                                                <img class="w-50 d-block m-auto" src="<?php echo BASE_URL ?>/storage/modules/<?php echo $_GET['file'] ?>" alt="">
+                                                <hr>
+                                                <?php
+                                                $ann_query = "SELECT * FROM tbl_announcements WHERE course_id=" . $course['id'];
+                                                $ann_result = mysqli_query($conn, $ann_query) or die(mysqli_error($conn));
+                                                if ($ann_result->num_rows) {
+                                                    while ($row = mysqli_fetch_array($ann_result)) {
+                                                        echo '<div class="alert alert-light d-flex" role="alert">' .
+                                                            '<input class="btn-ann-check" type="checkbox" name="" id="">' .
+                                                            '<div>' .
+                                                            '<h4 class="alert-heading">' . $row['title'] . '</h4>' .
+                                                            '<p>' . $row['description'] . '</p>' .
+                                                            '<hr>' .
+                                                            '<button class="btn btn-primary btn-sm">Reply</button>' .
+                                                            '</div>' .
+                                                            '<div class="ml-auto">' .
+                                                            'Posted on: ' . $row['created_at'] .
+                                                            '</div>' .
+                                                            '</div>';
+                                                    }
+                                                } else {
+                                                    echo '<div class="alert alert-light dark alert-dismissible fade show" role="alert"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-triangle">' .
+                                                        '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>' .
+                                                        '<line x1="12" y1="9" x2="12" y2="13"></line>' .
+                                                        '<line x1="12" y1="17" x2="12" y2="17"></line>' .
+                                                        '</svg>' .
+                                                        '<p> No announcement available.</p>' .
+                                                        '<button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>' .
+                                                        '</div>';
+                                                }
+                                                ?>
                                             </div>
                                         </div>
                                     </div>
